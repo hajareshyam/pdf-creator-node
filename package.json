@@ -1,0 +1,28 @@
+{
+  "name": "pdf-creator-node",
+  "version": "1.0.5",
+  "description": "node pdf creator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "homepage": "https://github.com/owner/project#readme",
+  "keywords": [
+    "node",
+    "pdf",
+    "pdf",
+    "creator",
+    "node",
+    "pdf",
+    "generator",
+    "node pdf generator",
+    "html2pdf",
+    "htmltopdf"
+  ],
+  "author": "Shyam Hajare",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.0.12",
+    "html-pdf": "^2.2.0"
+  }
+}
