@@ -1,6 +1,8 @@
 Follow the following steps to convert HTML to pdf
 
-Step 1 - npm i pdf-creator-node --save
+Step 1 - install the pdf creator packages by following command
+    //--save add save packages in packages.json file
+    npm i pdf-creator-node --save
 
 Step 2 - Add required packages and read HTML template
 
