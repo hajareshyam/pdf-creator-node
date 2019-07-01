@@ -93,7 +93,7 @@
 
 ## Referance
 
-Please refer following link. if you want to use condition in html
+Please refer following link if you want to use condition in html template
 
 - https://handlebarsjs.com/builtin_helpers.html
 
