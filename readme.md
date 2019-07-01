@@ -1,4 +1,5 @@
-### Follow the following steps to convert HTML to pdf
+# Follow the following steps to convert HTML to pdf
+
 - Step 1 - install the pdf creator packages by following command
 `$ npm i pdf-creator-node --save`
 
@@ -14,6 +15,7 @@
  // Read HTML Template
  var html = fs.readFileSync('template.html', 'utf8');
 ```
+
 - Step 3 - Create your HTML Template
 
  ```html
@@ -35,10 +37,12 @@
     </body>
 </html>
 ```
+
 - Step 4 - Provide Format and Orientation as per your need
 > "format": "Letter", // allowed units: A3, A4, A5, Legal, Letter, Tabloid
-    "orientation": "portrait", // portrait or landscape 
-	 
+> "orientation": "portrait", // portrait or landscape 
+
+
 ```javascript
  var options = {
         format: "A3",
@@ -46,21 +50,22 @@
         border: "10mm"
     };
 ```
+
 - Step 5 - Provide HTML, User data and pdf path for output
-	 
-	 ```javascript
+
+```javascript
   var users = [
     {
         name:"Shyam",
-        age:"26" 
+        age:"26"
     },
     {
         name:"Navjot",
-        age:"26" 
+        age:"26"
     },
     {
         name:"Vitthal",
-        age:"26" 
+        age:"26"
     }
 ]
 var document = {
@@ -71,6 +76,7 @@ var document = {
     path: "./output.pdf"
 };
 ```
+
 - Step 6 - After setting all parameters just pass document and options to pdf.create method.
 
 ```javascript
@@ -82,8 +88,10 @@ pdf.create(document, options)
         console.error(error)
      });
 ```
-###Referance 
-Please refer following link. if you want to use condition in html
-- https://handlebarsjs.com/builtin_helpers.html
 
-###End
+### Referance
+
+Please refer following link. if you want to use condition in html
+-https://handlebarsjs.com/builtin_helpers.html
+
+### End
