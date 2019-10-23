@@ -41,12 +41,18 @@
 
 - Step 4 - Provide Format and Orientation as per your need
 
-    > "format": "Letter", // allowed units: A3, A4, A5, Legal, Letter, Tabloid
+    >"height": "10.5in",        // allowed units: mm, cm, in, px
+
+    >"width": "8in",            // allowed units: mm, cm, in, px
+
+    - or -
+
+    >"format": "Letter",        // allowed units: A3, A4, A5, Legal, Letter, Tabloid
 
     >"orientation": "portrait", // portrait or landscape
 
     ```javascript
-    var options = {
+        var options = {
             format: "A3",
             orientation: "portrait",
             border: "10mm"
