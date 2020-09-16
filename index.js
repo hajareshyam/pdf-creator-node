@@ -16,6 +16,13 @@ var create = function(document, options) {
         if (!document || !document.html || !document.data) {
             reject(new Error("Some, or all, options are missing."));
         }
+        // use helpers
+         if(document.helper){
+            document.helper.forEach(element => {
+                Handlebars.registerHelper(element.name,element.function);
+                
+            });
+        }
         // Compiles a template
         var html = Handlebars.compile(document.html)(document.data);
         var pdfPromise = pdf.create(html, options);
