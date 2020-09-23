@@ -69,7 +69,7 @@
                     last: 'Last Page'
                 } 
             }
-       }
+       };
     ```
 
 - Step 5 - Provide HTML, User data and pdf path for output
