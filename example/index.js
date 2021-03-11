@@ -31,7 +31,7 @@ var document = {
     users: users,
   },
   path: "./output.pdf",
-  type: "stream", // "stream" || "buffer" || "" ("" defaults to pdf)
+  type: "buffer", // "stream" || "buffer" || "" ("" defaults to pdf)
 };
 
 console.log(document);
