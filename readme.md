@@ -120,3 +120,7 @@ Please refer to the following if you want to use conditions in your HTML templat
 - https://handlebarsjs.com/builtin_helpers.html
 
 ### End
+
+### License
+
+pdf-creator-node is [MIT licensed](./LICENSE).
