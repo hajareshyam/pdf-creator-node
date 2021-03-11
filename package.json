@@ -1,6 +1,6 @@
 {
   "name": "pdf-creator-node",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "node pdf creator",
   "main": "index.js",
   "scripts": {
