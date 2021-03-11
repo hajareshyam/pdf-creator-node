@@ -51,27 +51,27 @@
 
   > "orientation": "portrait", // portrait or landscape
 
-  ```javascript
-      var options = {
-          format: "A3",
-          orientation: "portrait",
-          border: "10mm",
-          header: {
-              height: "45mm",
-              contents: '<div style="text-align: center;">Author: Shyam Hajare</div>'
-          },
-          "footer": {
-              "height": "28mm",
-              "contents": {
-              first: 'Cover page',
-              2: 'Second page', // Any page number is working. 1-based index
-              default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
-              last: 'Last Page'
-          }
-      };
-
-  ```
-
+    ```javascript
+        var options = {
+            format: "A3",
+            orientation: "portrait",
+            border: "10mm",
+            header: {
+                height: "45mm",
+                contents: '<div style="text-align: center;">Author: Shyam Hajare</div>'
+            },
+            footer: {
+                height: "28mm",
+                contents: {
+                    first: 'Cover page',
+                    2: 'Second page', // Any page number is working. 1-based index
+                    default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+                    last: 'Last Page'
+                }
+            }
+        };
+    ```
+    
 - Step 5 - Provide HTML, user data and PDF path for output
 
   ```javascript
