@@ -46,7 +46,7 @@
   "author": "Shyam Hajare",
   "license": "ISC",
   "dependencies": {
-    "handlebars": "^4.7.6",
-    "html-pdf": "^2.2.0"
+    "handlebars": "^4.7.7",
+    "html-pdf": "^3.0.1"
   }
 }

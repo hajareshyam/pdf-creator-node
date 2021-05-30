@@ -11,6 +11,19 @@
 var Handlebars = require("handlebars");
 var pdf = require("html-pdf");
 
+Handlebars.registerHelper("math", function (lvalue, operator, rvalue, options) {
+  lvalue = parseFloat(lvalue);
+  rvalue = parseFloat(rvalue);
+
+  return {
+    "+": lvalue + rvalue,
+    "-": lvalue - rvalue,
+    "*": lvalue * rvalue,
+    "/": lvalue / rvalue,
+    "%": lvalue % rvalue
+  }[operator];
+});
+
 var create = function (document, options) {
   return new Promise((resolve, reject) => {
     if (!document || !document.html || !document.data) {
