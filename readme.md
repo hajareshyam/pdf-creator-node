@@ -23,7 +23,7 @@
   <!DOCTYPE html>
   <html>
     <head>
-      <mate charest="utf-8" />
+      <meta charset="utf-8" />
       <title>Hello world!</title>
     </head>
     <body>
