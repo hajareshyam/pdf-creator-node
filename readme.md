@@ -117,7 +117,7 @@
 
 Please refer to the following if you want to use conditions in your HTML template:
 
-- https://handlebarsjs.com/builtin_helpers.html
+- https://handlebarsjs.com/guide/builtin-helpers.html
 
 ### End
 
