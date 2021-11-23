@@ -120,6 +120,27 @@ You can do conditional checks by calling helper block _ifCond_ example
 {{#ifCond inputData "===" toCheckValue}}
 ```
 
+  ```html
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <title>Hello world!</title>
+    </head>
+    <body>
+      <h1>User List</h1>
+      <ul>
+        {{#each users}}
+        <li>Name: {{this.name}}</li>
+        <li>Age: {{#ifCond this.age '===' '26'}}</li>
+        <br />
+        {{/ifCond}}
+        {{/each}}
+      </ul>
+    </body>
+  </html>
+  ```
+
 Can check variables with different type ie _string_, _integer_, _boolean_, _double_
 
 Other logical operators are-:
