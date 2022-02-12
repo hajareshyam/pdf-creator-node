@@ -11,9 +11,6 @@
 var Handlebars = require("handlebars");
 var pdf = require("html-pdf");
 
-/**
- * @author joecutter <cjnjenga@gmail.com>
- */
 Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
   switch (operator) {
     case "==":
@@ -40,7 +37,6 @@ Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
       return options.inverse(this);
   }
 });
-
 
 var create = function (document, options) {
   return new Promise((resolve, reject) => {
