@@ -113,11 +113,81 @@
     });
   ```
 
-## Reference
+### If Conditional Checks
+You can do conditional checks by calling helper block _ifCond_ example
 
-Please refer to the following if you want to use conditions in your HTML template:
+```js
+{{#ifCond inputData "===" toCheckValue}}
+```
 
-- https://handlebarsjs.com/guide/builtin-helpers.html
+  ```html
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <title>Hello world!</title>
+    </head>
+    <body>
+      <h1>User List</h1>
+      <ul>
+        {{#each users}}
+        <li>Name: {{this.name}}</li>
+        <li>Age: {{#ifCond this.age '===' '26'}}</li>
+        <br />
+        {{/ifCond}}
+        {{/each}}
+      </ul>
+    </body>
+  </html>
+  ```
+
+Can check variables with different type ie _string_, _integer_, _boolean_, _double_
+
+Other logical operators are-:
+
+- ==
+   ```js
+    {{#ifCond inputData "==" toCheckValue}}
+   ```
+- ===
+   ```js
+    {{#ifCond inputData "===" toCheckValue}}
+   ```
+- != 
+   ```js
+    {{#ifCond inputData "!=" toCheckValue}}
+   ```
+- !==
+   ```js
+    {{#ifCond inputData "!==" toCheckValue}}
+   ```
+- <
+   ```js
+    {{#ifCond inputData "<" toCheckValue}}
+   ```
+- <=
+   ```js
+    {{#ifCond inputData "<=" toCheckValue}}
+   ```
+- '>
+   ```js
+    {{#ifCond inputData ">" toCheckValue}}
+   ```
+- '>=
+   ```js
+    {{#ifCond inputData ">=" toCheckValue}}
+   ```
+- &&
+   ```js
+    {{#ifCond inputData "&&" toCheckValue}}
+   ```
+- ||
+   ```js
+    {{#ifCond inputData "||" toCheckValue}}
+   ```
+
+##NOTE!!
+You can only match 2 variables
 
 ### End
 
