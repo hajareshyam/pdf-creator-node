@@ -11,27 +11,32 @@ var options = {
   border: "10mm",
 };
 
-var users = [
+const orders = [
   {
-    name: "Shyam",
-    age: "26",
+    order: 1,
+    type: "Address",
+    address: "Pune, Maharashtra",
   },
   {
-    name: "Navjot",
-    age: "26",
+    order: 2,
+    type: "item",
+    description: "Item 1",
+    price: "30",
   },
   {
-    name: "Vitthal",
-    age: "26",
+    order: 3,
+    type: "Address",
+    address: "Pune, Maharashtra",
   },
 ];
+
 var document = {
   html: html,
   data: {
-    users: users,
+    orders,
   },
   path: "./output.pdf",
-  type: "buffer", // "stream" || "buffer" || "" ("" defaults to pdf)
+  type: "", // "stream" || "buffer" || "" ("" defaults to pdf)
 };
 
 console.log(document);
