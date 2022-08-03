@@ -1,6 +1,6 @@
 {
   "name": "pdf-creator-node",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "description": "node pdf creator",
   "main": "index.js",
   "scripts": {
@@ -46,7 +46,7 @@
   "author": "Shyam Hajare",
   "license": "ISC",
   "dependencies": {
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "html-pdf": "^3.0.1"
   }
 }

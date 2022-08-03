@@ -13,29 +13,18 @@
   <body>
     <h1>User List</h1>
     <ul>
-      {{#each orders}} {{#ifCond this.order "===" 1}}
+      {{#each users}}
 
-      <li>Name: {{this.type}}</li>
-      <li>Age: {{this.address}}</li>
-      <br />
-      {{/ifCond}} {{#ifCond this.order "===" 2}}
-
-      <li>Name: {{this.type}}</li>
-      <li>Age: {{this.description}}</li>
-      <li>price: {{this.price}}</li>
-
+      <li>Name: {{this.name}}</li>
+      <li>Age: {{this.name}}</li>
       <br />
 
-      {{/ifCond}} {{#ifCond this.order "===" 3}}
-      <li>Address: {{this.Address}}</li>
-      <li>Address: {{this.address}}</li>
-      <br />
-
-      {{/ifCond}} {{/each}}
+      {{/each}}
     </ul>
 
     <h1>Server Image</h1>
     <img
+      style="width: 80%"
       src="https://miro.medium.com/max/3840/1*tRp3G6ffXDMDVOvMebzYgg.jpeg"
       class="img-fluid"
       alt="Responsive image"

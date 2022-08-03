@@ -11,35 +11,39 @@ var options = {
   border: "10mm",
 };
 
-const orders = [
+var users = [
   {
-    order: 1,
-    type: "Address",
-    address: "Pune, Maharashtra",
+    name: "Shyam",
+    age: "26",
   },
   {
-    order: 2,
-    type: "item",
-    description: "Item 1",
-    price: "30",
+    name: "Navjot",
+    age: "26",
   },
   {
-    order: 3,
-    type: "Address",
-    address: "Pune, Maharashtra",
+    name: "Vitthal",
+    age: "26",
   },
 ];
+var document = {
+  html: html,
+  data: {
+    users: users,
+  },
+  path: "./output.pdf",
+  type: "",
+};
+// By default a file is created but you could switch between Buffer and Streams by using "buffer" or "stream" respectively.
 
 var document = {
   html: html,
   data: {
-    orders,
+    users,
   },
   path: "./output.pdf",
   type: "", // "stream" || "buffer" || "" ("" defaults to pdf)
 };
 
-console.log(document);
 pdf
   .create(document, options)
   .then((res) => {
