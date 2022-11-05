@@ -186,7 +186,7 @@ Other logical operators are-:
     {{#ifCond inputData "||" toCheckValue}}
    ```
 
-##NOTE!!
+## NOTE!!
 You can only match 2 variables
 
 ### End
