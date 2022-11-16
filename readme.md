@@ -9,7 +9,7 @@
 - Step 2 - Add required packages and read HTML template
 
   ```javascript
-  //Required package
+  //Required packages
   var pdf = require("pdf-creator-node");
   var fs = require("fs");
 
