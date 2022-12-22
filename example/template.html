@@ -1,51 +1,1414 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Node PDF Creator</title>
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <h1>User List</h1>
-    <ul>
-      {{#each users}}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Laporan Penjualan-{{dateFileFormat}}pdf</title>
+    <style type="text/css">
+        /* Style definitions for pdfs */
+        @page {
+            margin: 0px 10px 0px 10px !important;
+            padding: 0px 10px 0px 10px !important;
+        }
 
-      <li>Name: {{this.name}}</li>
-      <li>Age: {{this.name}}</li>
-      <br />
+        /* General -----------------------------------------------------------------------*/
+        body {
+            background-color: #114c8d;
+            color: #000033;
+            font-family: "verdana", "sans-serif";
+            padding-top: 0px;
+            margin: 0px;
+            font-size: 1em;
+        }
 
-      {{/each}}
-    </ul>
+        h1 {
+            font-size: 1.1em;
+            color: #114c8d;
+            font-style: italic;
+        }
 
-    <h1>Server Image</h1>
-    <img
-      style="width: 80%"
-      src="https://miro.medium.com/max/3840/1*tRp3G6ffXDMDVOvMebzYgg.jpeg"
-      class="img-fluid"
-      alt="Responsive image"
-    />
+        h2 {
+            font-size: 1.05em;
+            color: #114c8d;
+        }
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+        h3 {
+            font-size: 1em;
+            color: #114c8d;
+        }
+
+        img {
+            border: none;
+        }
+
+        img.border {
+            border: 1px solid #114c8d;
+        }
+
+        pre {
+            font-family: "verdana", "sans-serif";
+            color: #ffffff;
+            font-size: 0.7em;
+        }
+
+        ul {
+            color: #beac8b;
+            list-style-type: circle;
+            list-style-position: inside;
+            margin: 0px;
+            padding: 3px;
+        }
+
+        li {
+            color: #000033;
+        }
+
+        li.alpha {
+            list-style-type: lower-alpha;
+            margin-left: 15px;
+        }
+
+        p {
+            font-size: 0.8em;
+        }
+
+        a:link,
+        a:visited {
+            text-decoration: none;
+            color: #114c8d;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #860000;
+        }
+
+        hr {
+            border: 0;
+        }
+
+        #page_header {
+            position: relative; /* required to make the z-index work */
+            z-index: 2;
+        }
+
+        #body {
+            background-color: #f9f0e9;
+            padding: 12px 0.5% 2em 3px;
+            min-height: 20em;
+            margin: 0px;
+            width: 100%;
+        }
+
+        #body pre {
+            color: #000033;
+        }
+
+        #left_column {
+            width: 84%;
+            height: auto;
+            padding-right: 8px;
+            padding-bottom: 30px;
+        }
+
+        #right_column {
+            padding-left: 16px;
+            width: 15%;
+            min-width: 160px;
+        }
+
+        /* Tables -----------------------------------------------------------------------*/
+        table {
+            empty-cells: show;
+        }
+
+        .head td {
+            color: #8b7958;
+            background-color: #e5d9c3;
+            font-weight: bold;
+            font-size: 0.7em;
+            padding: 3px;
+        }
+
+        .head input {
+            font-weight: normal;
+        }
+
+        .sub_head td {
+            border: none;
+            white-space: nowrap;
+            font-size: 10px;
+        }
+
+        .foot td {
+            color: #8b7958;
+            background-color: #e5d9c3;
+            font-size: 0.8em;
+        }
+
+        .label {
+            color: #8b7958;
+            background-color: #f8f5f2;
+            padding: 3px;
+            font-size: 0.75em;
+        }
+
+        .label_right {
+            color: #8b7958;
+            background-color: #f8f5f2;
+            padding: 3px;
+            font-size: 0.75em;
+            text-align: right;
+            padding-right: 1em;
+        }
+
+        .sublabel {
+            color: #8b7958;
+            font-size: 0.6em;
+            padding: 0px;
+            text-align: center;
+        }
+
+        .field {
+            color: #000033;
+            background-color: #f9f0e9;
+            padding: 3px;
+            font-size: 0.75em;
+        }
+
+        .field_center {
+            color: #000033;
+            background-color: #f9f0e9;
+            padding: 3px;
+            font-size: 0.75em;
+            text-align: center;
+        }
+
+        .field_nw {
+            color: #000033;
+            background-color: #f9f0e9;
+            padding: 3px;
+            font-size: 0.75em;
+            white-space: nowrap;
+        }
+
+        .field_money {
+            color: #000033;
+            background-color: #f9f0e9;
+            padding: 3px;
+            font-size: 0.75em;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        .field_total {
+            color: #000033;
+            background-color: #f9f0e9;
+            padding: 3px;
+            font-size: 0.75em;
+            white-space: nowrap;
+            text-align: right;
+            font-weight: bold;
+            border-top: 1px solid black;
+        }
+
+        /* Table Dat -----------------------------------------------------------------------*/
+        .h_scrollable {
+            overflow: -moz-scrollbars-horizontal;
+        }
+
+        .v_scrollable {
+            overflow: -moz-scrollbars-vertical;
+        }
+
+        .scrollable {
+            overflow: auto;
+        }
+
+        tr.head > td.center,
+        tr.list_row > td.center,
+        .center {
+            text-align: center;
+        }
+
+        .left,
+        tr.head > td.left,
+        tr.list_row > td.left {
+            text-align: left;
+            padding-left: 2em;
+        }
+
+        .total,
+        .right,
+        .list tr.head td.right,
+        tr.list_row td.right,
+        tr.foot td.right,
+        tr.foot td.total {
+            text-align: right;
+            padding-right: 2em;
+        }
+
+        .list tr.foot td {
+            font-weight: bold;
+        }
+
+        .no_wrap {
+            white-space: nowrap;
+        }
+
+        .bar {
+            border-top: 1px solid black;
+        }
+
+        .total {
+            font-weight: bold;
+        }
+
+        .summary_spacer_row {
+            line-height: 2px;
+        }
+
+        .light {
+            color: #999999;
+        }
+
+        /* Detail -----------------------------------------------------------------------*/
+        .fax_head,
+        .narrow,
+        .detail {
+            border-spacing: 1px;
+            border-top: 1px solid #8b7958;
+            border-bottom: 1px solid #8b7958;
+            width: 99%;
+            padding: 3px;
+            margin-bottom: 10px;
+        }
+
+        .detail td.label {
+            width: 16%;
+            background-color: #f9f0e9;
+        }
+
+        .detail td.field {
+            width: 33%;
+            text-align: center;
+            background-color: #f8f5f2;
+        }
+
+        .detail_spacer_row td {
+            background-color: #beac8b;
+            font-size: 2px;
+            line-height: 2px;
+            padding: 0px;
+            border-top: 1px solid #f9f0e9;
+            border-bottom: 1px solid #f9f0e9;
+        }
+
+        .detail td.field_money {
+            width: 33%;
+            background-color: #f8f5f2;
+        }
+
+        .narrow {
+            width: 60%;
+        }
+
+        .narrow td.label {
+            width: 50%;
+            background-color: #f9f0e9;
+        }
+
+        .narrow td.field_money,
+        .narrow td.field_total,
+        .narrow td.field {
+            width: 49%;
+        }
+
+        .narrow td.field_money,
+        .narrow td.field {
+            background-color: #f8f5f2;
+        }
+
+        .narrow td.field_total,
+        .narrow td.field_money {
+            padding-right: 4em;
+        }
+
+        .detail td.field {
+            text-align: center;
+            background-color: #f8f5f2;
+        }
+
+        .fax_head td.label {
+            width: 7%;
+        }
+
+        .fax_head td.field {
+            width: 26%;
+        }
+
+        .operation {
+            width: 1%;
+        }
+
+        /* Lists -----------------------------------------------------------------------*/
+        .list {
+            border-collapse: collapse;
+            border-spacing: 0px;
+            border-top: 1px solid #8b7958;
+            border-bottom: 1px solid #8b7958;
+            width: 99%;
+            margin-top: 3px;
+        }
+
+        .list tr.head td {
+            font-size: 0.7em;
+            white-space: nowrap;
+            padding-right: 0.65em;
+            border-bottom: 1px solid #8b7958;
+        }
+
+        .list table.sub_head td {
+            border: none;
+            white-space: nowrap;
+            font-size: 10px;
+        }
+
+        .list tr.foot td {
+            border-top: 1px solid #8b7958;
+            font-size: 0.7em;
+        }
+
+        tr.list_row > td {
+            background-color: #edf2f7;
+            border-bottom: 1px dotted #8b7958;
+            font-size: 0.65em;
+            padding: 3px;
+        }
+
+        tr.list_row:hover td {
+            background-color: #f8eee4;
+        }
+
+        tr.problem_row > td {
+            background-color: #fdcccc;
+            border-bottom: 1px dotted #8b7958;
+            font-size: 0.65em;
+            padding: 3px;
+        }
+
+        tr.problem_row:hover td {
+            background-color: #f8eee4;
+        }
+
+        .row_form td {
+            font-size: 0.7em;
+            padding: 3px;
+            white-space: nowrap;
+            /*  text-align: center; */
+        }
+
+        .row_form td.label {
+            text-align: left;
+            white-space: normal;
+        }
+
+        .inline_header td {
+            color: #8b7958;
+            font-size: 0.6em;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        /* Sub-Table -----------------------------------------------------------------------*/
+        .sub_table {
+            border-spacing: 0px;
+        }
+
+        .sub_table tr.head td {
+            font-size: 11px;
+            padding: 3px;
+            background-color: #f9f0e9;
+        }
+
+        .sub_table td {
+            padding: 3px;
+        }
+
+        /* Reports -----------------------------------------------------------------------*/
+        .report {
+            border-collapse: collapse;
+            border-spacing: 0px;
+            border-top: 1px solid #8b7958;
+            border-bottom: 1px solid #8b7958;
+            width: 80%;
+            margin-top: 3px;
+        }
+
+        .report tr td {
+            padding: 4px 6px;
+        }
+
+        .report tr.head td {
+            font-size: 0.7em;
+            white-space: nowrap;
+            text-align: center;
+            border-bottom: 1px solid #8b7958;
+        }
+
+        .report tr.foot td {
+            font-size: 0.7em;
+            border-top: 1px solid #8b7958;
+        }
+
+        .report tr.list_row > td {
+            background-color: #edf2f7;
+            border-bottom: 1px dotted #8b7958;
+            font-size: 0.65em;
+        }
+
+        .report tr.list_row:hover td {
+            background-color: #f8eee4;
+        }
+
+        .report td.total_col {
+            font-weight: bold;
+            border-left: 1px dotted #8b7958;
+            text-align: center;
+            width: 10%;
+        }
+
+        .report tr.head td.group_col {
+            text-align: left;
+        }
+
+        .report td.group_col {
+            font-weight: bold;
+            text-align: left;
+            border-right: 1px dotted #8b7958;
+            width: 12%;
+        }
+
+        .graph {
+            width: 80%;
+            margin-top: 2em;
+            margin-bottom: 3em;
+            text-align: center;
+        }
+
+        /* Notificat -----------------------------------------------------------------------*/
+        .notification_list {
+            border-collapse: collapse;
+            border-spacing: 0px;
+            border-top: 1px solid #8b7958;
+            border-bottom: 1px solid #8b7958;
+            width: 99%;
+        }
+
+        .notification_list tr.head td {
+            font-size: 0.65em;
+            white-space: nowrap;
+            text-align: center;
+            border-bottom: 1px solid #8b7958;
+        }
+
+        .notification_list tr.foot td {
+            border-top: 1px solid #8b7958;
+        }
+
+        .notification_list tr.list_row td {
+            padding: 7px;
+        }
+
+        div.notif_list_text {
+            margin-bottom: 1px;
+            font-size: 1.1em;
+        }
+
+        .list_row > td.notif_list_job {
+            white-space: nowrap;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.65em;
+            white-space: nowrap;
+        }
+
+        /* Some of the system messages are long and look bad with a highlighted background... */
+        #system_notif_table tr.list_row:hover > td {
+            background-color: #edf2f7;
+        }
+
+        .notif_select_column {
+            width: 2%;
+            padding: 0px;
+            text-align: center;
+        }
+
+        .notif_job_column {
+            width: 8%;
+            white-space: nowrap;
+            padding-left: 0px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .notif_notif_column {
+            width: auto;
+        }
+
+        .notif_date_column {
+            width: 15%;
+            text-align: center;
+            white-space: nowrap;
+            padding-right: 3px;
+        }
+
+        /* Notes -----------------------------------------------------------------------*/
+        table#topic_list {
+            border-bottom: 1px solid #e5d9c3;
+            border-collapse: separate;
+        }
+
+        /* Note Form */
+        .note_form {
+            background-color: #f9f0e9;
+            position: absolute;
+            left: 20%;
+            display: none;
+            border: 2px solid #114c8d;
+        }
+
+        .note_form table.form {
+            margin-top: 2em;
+        }
+
+        .handle {
+            background-color: #114c8d;
+            color: #ffffff;
+            margin-bottom: 3px;
+            height: 16px;
+        }
+
+        .note_form_close {
+            font-weight: bold;
+            font-size: 9px;
+            padding: 0px 2px 0px 2px;
+            margin-right: 2px;
+            position: absolute;
+            right: 0%;
+            border: 1px solid #114c8d;
+        }
+
+        a.note_form_close:hover {
+            text-decoration: none;
+        }
+
+        .list_row:hover > td table.add_note tr.add_note_foot td,
+        .list_row:hover > td table.add_note tr.add_note_head td {
+            background-color: #e5d9c3;
+        }
+        .list_row:hover > td table.add_note tr td {
+            background-color: #f9f0e9;
+        }
+
+        .add_note td {
+            border: none;
+            padding: 3px;
+            background-color: #f9f0e9;
+            font-size: 9px;
+        }
+
+        .add_note_head td {
+            background-color: #e5d9c3;
+            border-top: 1px solid #8b7958;
+            border-bottom: 1px solid #8b7958;
+            color: #8b7958;
+            padding: 3px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 9px;
+        }
+
+        .add_note input {
+            color: #114c8d;
+            background-color: #ffffff;
+            border: 1px solid #114c8d;
+            padding: 1px 2px 1px 2px;
+            text-decoration: none;
+            font-size: 9px;
+        }
+
+        .add_note textarea {
+            color: #114c8d;
+            background-color: #ffffff;
+            border: 1px solid #114c8d;
+            padding: 1px 2px 1px 2px;
+            font-family: "verdana", "sans-serif";
+            font-size: 9px;
+        }
+
+        .add_note select {
+            color: #114c8d;
+            background-color: #ffffff;
+            font-size: 9px;
+        }
+
+        .add_note_foot td {
+            background-color: #e5d9c3;
+            border-bottom: 1px solid #8b7958;
+            color: #8b7958;
+            padding: 3px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 9px;
+        }
+
+        /* Note List */
+        .note > td {
+            background-color: #edf2f7;
+            padding-left: 10px;
+            border-bottom: 1px dotted #e5d9c3;
+        }
+
+        .note:hover > td,
+        .note:hover > td > p {
+            background-color: #edf2f7;
+        }
+
+        .note_author {
+            font-size: 0.65em;
+            text-align: center;
+            border-right: 1px dotted #e5d9c3;
+        }
+
+        .note p {
+            margin-left: 3%;
+            font-size: 0.75em;
+            background-color: #edf2f7;
+        }
+
+        .topic_spacer td {
+            border-bottom: 1px solid #8b7958;
+            line-height: 2px;
+        }
+
+        td.note_indent {
+            background-color: #f9f0e9;
+            width: 2%;
+            border-bottom: none;
+        }
+
+        .note_control td {
+            padding-left: 2%;
+            padding-bottom: 1%;
+            font-weight: normal;
+            font-size: 0.6em;
+            background-color: #edf2f7;
+            border-bottom: 1px dotted #e5d9c3;
+        }
+
+        .topic_title {
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .note_title {
+            font-size: 0.8em;
+        }
+
+        .problem .topic_title {
+            color: #860000;
+        }
+
+        .thread > tr {
+            display: none;
+        }
+
+        /* Summaries -----------------------------------------------------------------------*/
+        .summary {
+            border: 1px solid black;
+            background-color: white;
+            padding: 1%;
+            font-size: 0.8em;
+        }
+
+        .summary h1 {
+            color: black;
+            font-style: normal;
+        }
+
+        /* Print pre -----------------------------------------------------------------------*/
+        .page {
+            background-color: white;
+            padding: 0px;
+            border: 1px solid black;
+            /*  font-size: 0.7em; */
+            width: 95%;
+            margin-bottom: 15px;
+            margin-right: 5px;
+            padding: 20px;
+        }
+
+        .page table.header td {
+            padding: 0px;
+        }
+
+        .page table.header td h1 {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .page h1 {
+            color: black;
+            font-style: normal;
+            font-size: 1.3em;
+        }
+
+        .page h2 {
+            color: black;
+        }
+
+        .page h3 {
+            color: black;
+            font-size: 1em;
+        }
+
+        .page p {
+            text-align: justify;
+            font-size: 0.8em;
+        }
+
+        .page table {
+            font-size: 0.8em;
+        }
+
+        .page em {
+            font-weight: bold;
+            font-style: normal;
+            text-decoration: underline;
+            margin-left: 1%;
+            margin-right: 1%;
+        }
+
+        .page table.money_table {
+            font-size: 1.1em;
+            border-collapse: collapse;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page table.money_table tr.foot td {
+            font-size: 1em;
+            border-top: 0.4pt solid black;
+            font-weight: bold;
+            background-color: white;
+            color: black;
+        }
+
+        .page table.money_table tr.foot td.right {
+            padding-right: 1px;
+        }
+
+        .written_field {
+            border-bottom: 1px solid black;
+        }
+
+        .page .written_field {
+            border-bottom: 0.4pt solid black;
+        }
+
+        .page .indent * {
+            margin-left: 4em;
+        }
+
+        .checkbox {
+            border: 1px solid black;
+            padding: 1px 2px;
+            font-size: 7px;
+            font-weight: bold;
+        }
+
+        table.signature_table {
+            width: 80%;
+            font-size: 0.7em;
+            margin: 2em auto 2em auto;
+        }
+
+        table.signature_table tr td {
+            padding-top: 1.5em;
+            vertical-align: top;
+            white-space: nowrap;
+        }
+
+        #special_conditions {
+            font-size: 1.3em;
+            font-style: italic;
+            margin-left: 2em;
+            font-weight: bold;
+        }
+
+        .sa_head p {
+            font-size: 1em;
+        }
+
+        .page hr {
+            border-bottom: 1px solid black;
+        }
+
+        .page table.detail,
+        .page table.fax_head {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page .narrow,
+        .page .fax_head {
+            border: none;
+        }
+
+        .page tr.head td {
+            color: black;
+            background-color: #eee;
+        }
+
+        .page td.label {
+            color: black;
+            background-color: white;
+            width: 20%;
+        }
+
+        .page td.label_right {
+            color: black;
+            background-color: white;
+        }
+
+        .page td.field {
+            background-color: white;
+            font-weight: bold;
+        }
+
+        .page td.field_money {
+            background-color: white;
+        }
+
+        .page td.field_total {
+            font-weight: bold;
+            background-color: white;
+        }
+
+        .page tr.detail_spacer_row td {
+            background-color: white;
+            border-top: 1px solid black;
+        }
+
+        .page .header {
+            border-spacing: 0px;
+            border-collapse: collapse;
+            padding: 0px;
+        }
+
+        .page .header tr td {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            background-color: #eee;
+        }
+        /* Style definitions for printable pages */
+
+        /* Hide non- -----------------------------------------------------------------------*/
+        #page_header,
+        #main_menu,
+        #right_column,
+        #footer {
+            display: none;
+        }
+
+        /* General -----------------------------------------------------------------------*/
+        @page {
+            margin: 0.25in;
+        }
+
+        body {
+            background-color: white;
+            color: black;
+        }
+
+        h1 {
+            color: black;
+        }
+
+        h2 {
+            color: black;
+        }
+
+        pre {
+            color: black;
+        }
+
+        ul {
+            color: black;
+        }
+
+        a:link,
+        a:visited {
+            color: black;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: black;
+        }
+
+        p a {
+            display: none;
+        }
+
+        #body {
+            background-color: white;
+        }
+
+        #body pre {
+            color: black;
+        }
+
+        /* Inputs -----------------------------------------------------------------------*/
+        input {
+            color: black;
+            border: 1px solid black;
+            background-color: white;
+        }
+
+        select {
+            color: black;
+            border: 1px solid black;
+            background-color: white;
+        }
+
+        textarea {
+            color: black;
+            border: 1px solid black;
+            background-color: white;
+        }
+
+        a.button {
+            display: none;
+        }
+
+        a.block_button {
+            display: none;
+        }
+
+        input[type="button"],
+        input[type="submit"],
+        input[type="reset"] {
+            display: none;
+        }
+
+        /* Tooltips -----------------------------------------------------------------------*/
+        .tooltip {
+            display: none;
+        }
+
+        /* Message a -----------------------------------------------------------------------*/
+        #message_area {
+            display: none;
+        }
+
+        /* Section H -----------------------------------------------------------------------*/
+        #section_header {
+            background-color: #ddd;
+            border: 1px dashed #666;
+        }
+
+        /* Content -----------------------------------------------------------------------*/
+        .page_buttons {
+            display: none;
+        }
+
+        .link_bar {
+            display: none;
+        }
+
+        /* Tables -----------------------------------------------------------------------*/
+        .head td {
+            color: black;
+            background-color: white;
+        }
+
+        .foot td {
+            color: black;
+            background-color: white;
+        }
+
+        .label {
+            color: black;
+            background-color: white;
+        }
+
+        .sublabel {
+            color: black;
+        }
+
+        .field {
+            color: black;
+            background-color: white;
+        }
+
+        .field_center {
+            color: black;
+            background-color: white;
+        }
+
+        .field_nw {
+            color: black;
+            background-color: white;
+        }
+
+        .field_money {
+            color: black;
+            background-color: white;
+        }
+
+        .field_total {
+            color: black;
+            background-color: white;
+        }
+
+        /* Detail -----------------------------------------------------------------------*/
+        .detail {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        .detail td.label {
+            background-color: white;
+        }
+
+        .detail td.field_total,
+        .detail td.field {
+            font-weight: bold;
+            background-color: #eee;
+        }
+
+        .detail td.field_money {
+            background-color: #eee;
+        }
+
+        .detail_spacer_row td {
+            background-color: white;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        .narrow td.label {
+            background-color: white;
+        }
+
+        .narrow td.field {
+            background-color: #eee;
+        }
+
+        /* Wizards -----------------------------------------------------------------------*/
+        .wizard {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        /* Forms -----------------------------------------------------------------------*/
+        .form {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        /* Lists -----------------------------------------------------------------------*/
+        .list {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        .list tr.head > td {
+            border-bottom: 1px solid black;
+        }
+        .list tr.foot td {
+            border-top: 1px solid black;
+        }
+
+        tr.list_row > td {
+            background-color: white;
+            border-bottom: 1px dotted #666;
+        }
+
+        tr.list_row:hover td {
+            background-color: white;
+        }
+
+        /* Notificat -----------------------------------------------------------------------*/
+        .notification_list {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        .notification_list tr.head td {
+            border-bottom: 1px solid black;
+        }
+
+        .notification_list tr.foot td {
+            border-top: 1px solid black;
+        }
+
+        #system_notif_table tr.list_row:hover > td {
+            background-color: white;
+        }
+
+        /* Notes -----------------------------------------------------------------------*/
+        /* Note Table */
+        table#topic_list {
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Note Form */
+        .note_form {
+            display: none;
+        }
+
+        /* Note List */
+        .note > td {
+            background-color: white;
+            border-bottom: 1px dotted #eee;
+        }
+
+        .note:hover > td,
+        .note:hover > td > p {
+            background-color: white;
+        }
+
+        .note_author {
+            border-right: 1px dotted #eee;
+        }
+
+        .note td {
+            background-color: white;
+        }
+
+        .note p {
+            background-color: white;
+        }
+
+        .topic_spacer td {
+            border-bottom: 1px solid black;
+        }
+
+        td.note_indent {
+            background-color: white;
+        }
+
+        .note_control td {
+            background-color: white;
+            border-bottom: 1px dotted #eee;
+        }
+
+        .problem .topic_title {
+            color: black;
+        }
+
+        /* Summaries -----------------------------------------------------------------------*/
+        .summary {
+            border: 1px solid black;
+            background-color: white;
+        }
+
+        .summary h1 {
+            color: black;
+        }
+
+        /* Pages -----------------------------------------------------------------------*/
+        .page > * > p,
+        .page > p {
+            font-size: 1.5em;
+        }
+
+        .written_field {
+            font-size: 1em;
+            border-bottom: 1px solid black;
+        }
+
+        .page h1 {
+            font-size: 1em;
+        }
+
+        .page h2 {
+            font-size: 0.9em;
+        }
+
+        @page {
+            margin-bottom: 0.75in;
+        }
+        /* General -----------------------------------------------------------------------*/
+        body {
+            background-color: white;
+        }
+
+        /* Detail -----------------------------------------------------------------------*/
+
+        .narrow td.field,
+        .detail td.field {
+            text-align: left;
+            padding-left: 1em;
+            background-color: white;
+        }
+
+        /* Lists -----------------------------------------------------------------------*/
+        .list tr.head td {
+            background-color: #eee;
+        }
+
+        tr.list_row > td {
+            background-color: white;
+            border-bottom: 0.7pt dotted #666;
+        }
+
+        .list tr.foot td {
+            background-color: #eee;
+        }
+
+        /* Pages -----------------------------------------------------------------------*/
+        .page {
+            font-size: 1em;
+            border: none;
+            margin: none;
+            width: auto;
+            padding: 0px;
+        }
+
+        .foot td {
+            font-size: 1em;
+        }
+
+        .page > * > p,
+        .page > p {
+            font-size: 0.8em;
+        }
+
+        table.signature_table {
+            width: 88%;
+            font-size: 0.6em;
+        }
+
+        #special_conditions {
+            font-size: 1.5em;
+        }
+
+        .header h1 {
+            font-size: 0.8em;
+        }
+
+        p.small {
+            font-size: 0.8em;
+        }
+
+        .page td {
+            padding: 1px;
+        }
+
+        td.label {
+            font-size: 0.7em;
+        }
+
+        td.field {
+            font-size: 0.7em;
+        }
+
+        td.field_money {
+            font-size: 0.7em;
+        }
+    </style>
+</head>
+<body class="page">
+    <table style="width: 100%;margin-top: 10px;" class="header">
+        <tr>
+            <td style="width: 50%; vertical-align: middle;">
+                <h1 style="text-align: left;">LAPORAN PENJUALAN - {{dateYMD}}</h1>
+            </td>
+
+            <td style="width: 50%; text-align: right;">
+                <h1 style="text-align: right;">{{gudang}}</h1>
+                <span style="font-weight: bold; font-size: 0.7em;">DICETAK: {{dateTimeFormat}}</span>
+            </td>
+        </tr>
+    </table>
+
+    <?php
+    $total_penjualan_kasir = ( get_total_penjualan_gudang( get_session( 'gudang_id' ) ) + get_total_hutang_gudang( get_session( 'gudang_id' ) ) + get_total_uang_titip_gudang( get_session( 'gudang_id' ) ) );
+    $total_sebenarnya = ( get_total_penjualan_gudang( get_session( 'gudang_id' ) ) - total_kas( 'keluar' ) ) + total_kas( 'masuk' );
+    ?>
+    <table class="detail" style="margin: 0px; border-bottom: none;">
+        <tr>
+            <td class="label">Total Penjualan Kasir:</td>
+            <td class="field">{{totalPenjualanKasir}}</td>
+            <td class="label">Total Kas Keluar:</td>
+            <td class="field">{{totalKasKeluar}}</td>
+        </tr>
+        <tr>
+            <td class="label">Total Hutang:</td>
+            <td class="field">{{totalHutang}}</td>
+            <td class="label">Total Kas Masuk:</td>
+            <td class="field">{{totalKasMasuk}}</td>
+        </tr>
+        <tr>
+            <td class="label">Total Uang Titip:</td>
+            <td class="field">{{totalUangTitip}}</td>
+            <td class="label">Total Sebenarnya:</td>
+            <td class="field">{{totalSebanarnya}}</td>
+        </tr>
+    </table>
+
+    <table class="list" style="width: 100%; margin-top: 1em;">
+        <tr class="head">
+            <td class="center" style="width: 10%;">Jam</td>
+            <td style="width: 20%;">No Transaksi</td>
+            <td style="width: 25%;">Nama Barang</td>
+            <td style="width: 20%;">Jumlah / Harga Jual</td>
+            <td class="right" style="width: 10%;">Sub Total</td>
+            <td class="center" style="width: 10%;">Metode Bayar</td>
+            <td class="right" style="width: 10%;">Uang Titip</td>
+            <td class="right" style="width: 10%;">Hutang</td>
+            <td class="right" style="width: 10%;">Tempo</td>
+        </tr>
+        {{#ifCond data "==" null}}
+            {{#each data}}
+                <tr class="list_row">
+                    <td class="center">{{this.jam}}</td>
+                    <td>{{this.no_transaksi}}</td>
+                    <td>
+                        {{#each this.detailOrder}}
+                          <span style="display: block;">&mdash; {{this.barang_nama}}</span>
+                        {{/each}}
+                    </td>
+                    <td>
+                        <?php
+                        foreach ($laporan['jumlah_harga_jual'] as $harga) {
+                            echo str_replace('<del>Rp. 0</del>', '', html_entity_decode($harga));
+                        }
+                        ?>
+                    </td>
+                    <td><?= $laporan['sub_total'] ?></td>
+                    <td class="center" style="<?= $laporan['jenis_pembayaran']['style'] ?>"><?= $laporan['jenis_pembayaran']['text'] ?></td>
+                    <td class="right" style="<?= $laporan['uang_titip']['style'] ?>"><?= $laporan['uang_titip']['text'] ?></td>
+                    <td class="right" style="<?= $laporan['hutang']['style'] ?>"><?= $laporan['hutang']['text'] ?></td>
+                    <td class="center"><?= $laporan['jatuh_tempo'] ?></td>
+                </tr>
+            {{/each}}
+        {{#else}}
+            <tr class="list_row">
+                <td colspan="9" class="center">Data Tidak Ada</td>
+            </tr>
+        {{/ifCond}}
+        <tr class="foot">
+            <td colspan="4" class="right">&nbsp;</td>
+            <td style="font-weight: bold;"><?= $total_penjualan_kasir ?></td>
+            <td class="right">&nbsp;</td>
+            <td class="right" style="font-weight: bold;"><?= idr_format(get_total_uang_titip_gudang(get_session('gudang_id')), true) ?></td>
+            <td class="right" style="font-weight: bold;"><?= idr_format(get_total_hutang_gudang(get_session('gudang_id')), true) ?></td>
+            <td class="right">&nbsp;</td>
+        </tr>
+    </table>
+</body>
 </html>

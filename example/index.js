@@ -25,15 +25,6 @@ var users = [
     age: "26",
   },
 ];
-var document = {
-  html: html,
-  data: {
-    users: users,
-  },
-  path: "./output.pdf",
-  type: "",
-};
-// By default a file is created but you could switch between Buffer and Streams by using "buffer" or "stream" respectively.
 
 var document = {
   html: html,
@@ -41,14 +32,17 @@ var document = {
     users,
   },
   path: "./output.pdf",
-  type: "", // "stream" || "buffer" || "" ("" defaults to pdf)
+  type: "buffer", // "stream" || "buffer" || "" ("" defaults to pdf)
 };
 
-pdf
-  .create(document, options)
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+const generator = async () => {
+  try {
+    const genpdf = await pdf.create(document, options)
+    var utf8encoded = Buffer.from(genpdf, 'base64').toString('base64');
+    fs.writeFileSync('result.txt', utf8encoded);
+    console.log(utf8encoded);
+  } catch (error) {
+    console.log(error);
+  }
+}
+generator()
