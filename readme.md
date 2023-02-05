@@ -10,7 +10,8 @@
 
   ```javascript
   //Required package
-  var pdf = require("pdf-creator-node");
+  // not pdf-creator-node that is only pdf-node
+  var pdf = require("pdf-node");
   var fs = require("fs");
 
   // Read HTML Template
@@ -100,11 +101,10 @@
   // By default a file is created but you could switch between Buffer and Streams by using "buffer" or "stream" respectively.
   ```
 
-- Step 6 - After setting all parameters, just pass document and options to `pdf.create` method.
+- Step 6 - After setting all parameters, just pass document and options to `pdf` method.
 
   ```javascript
-  pdf
-    .create(document, options)
+  pdf(document, options)
     .then((res) => {
       console.log(res);
     })
