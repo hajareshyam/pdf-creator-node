@@ -9,6 +9,6 @@
   "author": "Shyam Hajare",
   "license": "ISC",
   "dependencies": {
-    "pdf-creator-node": "^1.4.3"
+    "pdf-creator-node": "^2.3.5"
   }
 }

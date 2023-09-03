@@ -31,10 +31,19 @@ var document = {
     users: users,
   },
   path: "./output.pdf",
-  type: "buffer", // "stream" || "buffer" || "" ("" defaults to pdf)
+  type: "",
+};
+// By default a file is created but you could switch between Buffer and Streams by using "buffer" or "stream" respectively.
+
+var document = {
+  html: html,
+  data: {
+    users,
+  },
+  path: "./output.pdf",
+  type: "", // "stream" || "buffer" || "" ("" defaults to pdf)
 };
 
-console.log(document);
 pdf
   .create(document, options)
   .then((res) => {

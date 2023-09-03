@@ -1,12 +1,12 @@
 {
   "name": "pdf-creator-node",
-  "version": "2.2.2",
+  "version": "2.3.5",
   "description": "node pdf creator",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/hajareshyam/pdf-creator-node",
+  "homepage": "https://github.com/hajareshyam",
   "keywords": [
     "pdf",
     "pdf",
