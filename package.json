@@ -47,6 +47,11 @@
   "license": "ISC",
   "dependencies": {
     "handlebars": "^4.7.7",
-    "html-pdf": "^3.0.1"
+    "html-pdf": "^3.0.1",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/html-pdf": "^3.0.3",
+    "@types/node": "^22.13.0"
   }
 }
