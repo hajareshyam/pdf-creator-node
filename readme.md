@@ -10,7 +10,7 @@
 
   ```javascript
   //Required package
-  var pdf = require("pdf-creator-node");
+  var pdf = require("pdf-node");
   var fs = require("fs");
 
   // Read HTML Template
@@ -95,7 +95,7 @@
       users: users,
     },
     path: "./output.pdf",
-    type: "",
+    type: "pdf",
   };
   // By default a file is created but you could switch between Buffer and Streams by using "buffer" or "stream" respectively.
   ```
