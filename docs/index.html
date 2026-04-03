@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="pdf-creator-node — generate PDFs from HTML templates with Handlebars in Node.js."
+    />
+    <meta name="theme-color" content="#0f1419" />
+    <title>pdf-creator-node — HTML to PDF for Node.js</title>
+    <script>
+      (function () {
+        var k = "pdf-creator-node-theme";
+        var s = localStorage.getItem(k);
+        var t =
+          s === "light" || s === "dark"
+            ? s
+            : window.matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <a class="site-header__brand" href="#">pdf-creator-node</a>
+        <nav class="site-nav" aria-label="On this page">
+          <a href="#quick-start">Quick start</a>
+          <a href="#guide">Guide</a>
+          <a href="#ifcond">ifCond</a>
+        </nav>
+        <div class="site-header__actions">
+          <button
+            type="button"
+            class="theme-toggle"
+            aria-pressed="true"
+            aria-label="Switch to light theme"
+          >
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true"
+              >☀</span
+            >
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"
+              >☽</span
+            >
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="wrap">
+        <header class="hero">
+          <p class="hero__eyebrow">Node.js · Handlebars · html-pdf</p>
+          <h1>pdf-creator-node</h1>
+          <p class="tagline">
+            Turn HTML templates into PDFs — write templates with Handlebars, get a
+            <strong>file</strong>, <strong>buffer</strong>, or
+            <strong>stream</strong>.
+          </p>
+          <div class="badges">
+            <a
+              href="https://www.npmjs.com/package/pdf-creator-node"
+              title="npm package"
+            >
+              <img
+                src="https://img.shields.io/npm/v/pdf-creator-node.svg?style=flat-square&logo=npm&label=npm"
+                alt="npm version"
+                width="90"
+                height="22"
+                loading="lazy"
+              />
+            </a>
+            <a
+              href="https://github.com/hajareshyam/pdf-creator-node"
+              title="Source on GitHub"
+            >
+              <img
+                src="https://img.shields.io/github/stars/hajareshyam/pdf-creator-node?style=flat-square&logo=github&label=stars"
+                alt="GitHub stars"
+                width="90"
+                height="22"
+                loading="lazy"
+              />
+            </a>
+          </div>
+          <div class="cta-row">
+            <a
+              class="btn btn--primary"
+              href="https://www.npmjs.com/package/pdf-creator-node"
+              >View on npm</a
+            >
+            <a class="btn" href="https://github.com/hajareshyam/pdf-creator-node"
+              >Source on GitHub</a
+            >
+          </div>
+          <div class="install-block" tabindex="-1">
+            npm i pdf-creator-node --save
+          </div>
+        </header>
+
+        <section id="quick-start" class="section" aria-labelledby="quick-start-heading">
+          <div class="section__head">
+            <h2 id="quick-start-heading">Quick start</h2>
+            <p class="section__lede">
+              Minimal example: load a template, pass data, call
+              <code>create</code>.
+            </p>
+          </div>
+          <pre class="code-block"><code>var pdf = require("pdf-creator-node");
+var fs = require("fs");
+
+var html = fs.readFileSync("template.html", "utf8");
+
+var options = {
+  format: "A3",
+  orientation: "portrait",
+  border: "10mm",
+};
+
+var document = {
+  html: html,
+  data: { users: [ /* … */ ] },
+  path: "./output.pdf",
+  type: "", // "" = file | "buffer" | "stream"
+};
+
+pdf
+  .create(document, options)
+  .then((res) =&gt; console.log(res))
+  .catch((err) =&gt; console.error(err));</code></pre>
+        </section>
+
+        <section id="guide" class="section" aria-labelledby="guide-heading">
+          <div class="section__head">
+            <h2 id="guide-heading">Step-by-step</h2>
+            <p class="section__lede">
+              From install to your first PDF in six steps.
+            </p>
+          </div>
+          <ol class="steps">
+            <li class="steps__item">
+              <div class="steps__title">Install</div>
+              <div class="install-block">npm i pdf-creator-node --save</div>
+            </li>
+            <li class="steps__item">
+              <div class="steps__title">Load the package and read your template</div>
+              <pre class="code-block"><code>var pdf = require("pdf-creator-node");
+var fs = require("fs");
+var html = fs.readFileSync("template.html", "utf8");</code></pre>
+            </li>
+            <li class="steps__item">
+              <div class="steps__title">Author your HTML</div>
+              <p class="steps__text">
+                Use Handlebars (e.g. <code>{{#each users}}</code>).
+              </p>
+              <pre class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;&lt;meta charset="utf-8" /&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;User list&lt;/h1&gt;
+    &lt;ul&gt;
+      {{#each users}}
+      &lt;li&gt;Name: {{this.name}}&lt;/li&gt;
+      &lt;li&gt;Age: {{this.age}}&lt;/li&gt;
+      {{/each}}
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </li>
+            <li class="steps__item">
+              <div class="steps__title">Configure PDF options</div>
+              <p class="steps__text">
+                Size with <code>height</code>/<code>width</code> (e.g.
+                <code>10.5in</code>; units: mm, cm, in, px) or
+                <code>format</code> (A3, A4, A5, Legal, Letter, Tabloid) and
+                <code>orientation</code>.
+              </p>
+              <pre class="code-block"><code>var options = {
+  format: "A3",
+  orientation: "portrait",
+  border: "10mm",
+  header: {
+    height: "45mm",
+    contents: '&lt;div style="text-align: center;"&gt;Author: …&lt;/div&gt;',
+  },
+  footer: {
+    height: "28mm",
+    contents: {
+      first: "Cover page",
+      2: "Second page",
+      default: '&lt;span&gt;{{page}}/{{pages}}&lt;/span&gt;',
+      last: "Last page",
+    },
+  },
+};</code></pre>
+            </li>
+            <li class="steps__item">
+              <div class="steps__title">Build the document object</div>
+              <p class="steps__text">
+                Set <code>type</code> to <code>"buffer"</code> or
+                <code>"stream"</code> to avoid writing a file.
+              </p>
+            </li>
+            <li class="steps__item">
+              <div class="steps__title">Call <code>pdf.create</code></div>
+              <p class="steps__text">
+                <code>pdf.create(document, options)</code> returns a Promise.
+              </p>
+            </li>
+          </ol>
+        </section>
+
+        <section id="ifcond" class="section" aria-labelledby="ifcond-heading">
+          <div class="section__head">
+            <h2 id="ifcond-heading"><code>ifCond</code> helper</h2>
+            <p class="section__lede">
+              Compare two values inside templates — two operands only.
+            </p>
+          </div>
+          <p>
+            Operators:
+            <code>==</code>, <code>===</code>, <code>!=</code>,
+            <code>!==</code>, <code>&lt;</code>, <code>&lt;=</code>,
+            <code>&gt;</code>, <code>&gt;=</code>, <code>&amp;&amp;</code>,
+            <code>||</code>.
+          </p>
+          <pre class="code-block"><code>{{#ifCond inputData "===" toCheckValue}}
+  …
+{{/ifCond}}</code></pre>
+          <aside class="note" role="note">
+            <strong>Note:</strong> License terms live in the repository (see
+            footer). Read the full readme on GitHub for more examples.
+          </aside>
+        </section>
+
+        <footer class="site-footer">
+          <div class="site-footer__links">
+            <a
+              href="https://github.com/hajareshyam/pdf-creator-node/blob/master/LICENSE"
+              >License</a
+            >
+            <a href="https://github.com/hajareshyam/pdf-creator-node">GitHub</a>
+            <a href="https://www.npmjs.com/package/pdf-creator-node">npm</a>
+            <a
+              href="https://github.com/hajareshyam/pdf-creator-node/edit/master/docs/index.html"
+              >Edit this page</a
+            >
+          </div>
+          <p class="site-footer__meta">
+            <strong>pdf-creator-node</strong> · Shyam Hajare
+          </p>
+        </footer>
+      </div>
+    </main>
+
+    <button type="button" class="back-to-top" aria-label="Back to top">
+      <span aria-hidden="true">↑</span>
+    </button>
+
+    <script src="assets/js/main.js" defer></script>
+  </body>
+</html>

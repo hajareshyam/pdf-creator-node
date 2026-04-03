@@ -25,16 +25,7 @@ var users = [
     age: "26",
   },
 ];
-var document = {
-  html: html,
-  data: {
-    users: users,
-  },
-  path: "./output.pdf",
-  type: "",
-};
 // By default a file is created but you could switch between Buffer and Streams by using "buffer" or "stream" respectively.
-
 var document = {
   html: html,
   data: {

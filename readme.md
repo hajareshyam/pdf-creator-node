@@ -1,196 +1,176 @@
-# Follow these steps to convert HTML to PDF
+# pdf-creator-node
 
-- Step 1 - install the pdf creator package using the following command
+Convert **HTML + Handlebars** templates to **PDF** in Node.js (via [html-pdf](https://www.npmjs.com/package/html-pdf)).
 
-  `$ npm i pdf-creator-node --save`
+**Requirements:** [Node.js](https://nodejs.org/) 18 or newer.
 
-  > --save flag adds package name to package.json file.
+## Install
 
-- Step 2 - Add required packages and read HTML template
-
-  ```javascript
-  //Required package
-  var pdf = require("pdf-creator-node");
-  var fs = require("fs");
-
-  // Read HTML Template
-  var html = fs.readFileSync("template.html", "utf8");
-  ```
-
-- Step 3 - Create your HTML Template
-
-  ```html
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="utf-8" />
-      <title>Hello world!</title>
-    </head>
-    <body>
-      <h1>User List</h1>
-      <ul>
-        {{#each users}}
-        <li>Name: {{this.name}}</li>
-        <li>Age: {{this.age}}</li>
-        <br />
-        {{/each}}
-      </ul>
-    </body>
-  </html>
-  ```
-
-- Step 4 - Provide format and orientation as per your need
-
-  > "height": "10.5in", // allowed units: mm, cm, in, px
-
-  > "width": "8in", // allowed units: mm, cm, in, px
-
-  - or -
-
-  > "format": "Letter", // allowed units: A3, A4, A5, Legal, Letter, Tabloid
-
-  > "orientation": "portrait", // portrait or landscape
-
-    ```javascript
-        var options = {
-            format: "A3",
-            orientation: "portrait",
-            border: "10mm",
-            header: {
-                height: "45mm",
-                contents: '<div style="text-align: center;">Author: Shyam Hajare</div>'
-            },
-            footer: {
-                height: "28mm",
-                contents: {
-                    first: 'Cover page',
-                    2: 'Second page', // Any page number is working. 1-based index
-                    default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
-                    last: 'Last Page'
-                }
-            }
-        };
-    ```
-    
-- Step 5 - Provide HTML, user data and PDF path for output
-
-  ```javascript
-  var users = [
-    {
-      name: "Shyam",
-      age: "26",
-    },
-    {
-      name: "Navjot",
-      age: "26",
-    },
-    {
-      name: "Vitthal",
-      age: "26",
-    },
-  ];
-  var document = {
-    html: html,
-    data: {
-      users: users,
-    },
-    path: "./output.pdf",
-    type: "",
-  };
-  // By default a file is created but you could switch between Buffer and Streams by using "buffer" or "stream" respectively.
-  ```
-
-- Step 6 - After setting all parameters, just pass document and options to `pdf.create` method.
-
-  ```javascript
-  pdf
-    .create(document, options)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  ```
-
-### If Conditional Checks
-You can do conditional checks by calling helper block _ifCond_ example
-
-```js
-{{#ifCond inputData "===" toCheckValue}}
+```bash
+npm i pdf-creator-node
 ```
 
-  ```html
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="utf-8" />
-      <title>Hello world!</title>
-    </head>
-    <body>
-      <h1>User List</h1>
-      <ul>
-        {{#each users}}
-        <li>Name: {{this.name}}</li>
-        <li>Age: {{#ifCond this.age '===' '26'}}</li>
-        <br />
-        {{/ifCond}}
-        {{/each}}
-      </ul>
-    </body>
-  </html>
-  ```
+## Quick usage
 
-Can check variables with different type ie _string_, _integer_, _boolean_, _double_
+```javascript
+const pdf = require("pdf-creator-node");
+const fs = require("fs");
 
-Other logical operators are-:
+const html = fs.readFileSync("template.html", "utf8");
 
-- ==
-   ```js
-    {{#ifCond inputData "==" toCheckValue}}
-   ```
-- ===
-   ```js
-    {{#ifCond inputData "===" toCheckValue}}
-   ```
-- != 
-   ```js
-    {{#ifCond inputData "!=" toCheckValue}}
-   ```
-- !==
-   ```js
-    {{#ifCond inputData "!==" toCheckValue}}
-   ```
-- <
-   ```js
-    {{#ifCond inputData "<" toCheckValue}}
-   ```
-- <=
-   ```js
-    {{#ifCond inputData "<=" toCheckValue}}
-   ```
-- '>
-   ```js
-    {{#ifCond inputData ">" toCheckValue}}
-   ```
-- '>=
-   ```js
-    {{#ifCond inputData ">=" toCheckValue}}
-   ```
-- &&
-   ```js
-    {{#ifCond inputData "&&" toCheckValue}}
-   ```
-- ||
-   ```js
-    {{#ifCond inputData "||" toCheckValue}}
-   ```
+const options = {
+  format: "A3",
+  orientation: "portrait",
+  border: "10mm",
+};
 
-##NOTE!!
-You can only match 2 variables
+const document = {
+  html,
+  data: { users: [{ name: "Ada", age: 36 }] },
+  path: "./output.pdf",
+  // type: ""  // optional; omit or use "" / "file" for file output
+};
 
-### End
+pdf
+  .create(document, options)
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
 
-### License
+### TypeScript
 
-pdf-creator-node is [MIT licensed](./LICENSE).
+```typescript
+import pdf from "pdf-creator-node";
+import type { PdfDocument, PdfCreateOptions } from "pdf-creator-node";
+
+const document: PdfDocument = {
+  html: "<p>{{title}}</p>",
+  data: { title: "Hello" },
+  path: "./out.pdf",
+};
+
+const options: PdfCreateOptions = {
+  format: "A4",
+  orientation: "portrait",
+};
+
+await pdf.create(document, options);
+```
+
+### Output type
+
+- **File (default):** set `path`. You can omit `type`, or use `type: ""` or `type: "file"`.
+- **Buffer:** `type: "buffer"`.
+- **Stream:** `type: "stream"`.
+
+### Optional Handlebars helpers
+
+Pass `handlebarsHelpers` on the **second** argument (alongside `html-pdf` options). Helpers apply only to that render (isolated Handlebars instance). Built-in `ifCond` is always registered.
+
+```javascript
+pdf.create(
+  {
+    html: "<p>{{upper name}}</p>",
+    data: { name: "test" },
+    path: "./out.pdf",
+  },
+  {
+    format: "A4",
+    handlebarsHelpers: {
+      upper: (s) => String(s).toUpperCase(),
+    },
+  }
+);
+```
+
+### Validation errors
+
+You may see explicit errors such as:
+
+- `document.html` must be a non-empty string
+- `document.data` is required (use `{}` if there are no variables)
+- `document.path` is required when writing a file (or use `buffer` / `stream`)
+- `template rendering failed:` … (Handlebars compile/render issue)
+
+## HTML template
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+  </head>
+  <body>
+    <h1>User List</h1>
+    <ul>
+      {{#each users}}
+      <li>Name: {{this.name}}</li>
+      <li>Age: {{this.age}}</li>
+      {{/each}}
+    </ul>
+  </body>
+</html>
+```
+
+## PDF options (html-pdf)
+
+Examples:
+
+- **Size:** `"height": "10.5in"`, `"width": "8in"` (units: mm, cm, in, px)
+- **Or:** `"format": "Letter"` (A3, A4, A5, Legal, Letter, Tabloid) and `"orientation": "portrait"` or `"landscape"`
+
+```javascript
+const options = {
+  format: "A3",
+  orientation: "portrait",
+  border: "10mm",
+  header: {
+    height: "45mm",
+    contents: '<div style="text-align: center;">Author: Shyam Hajare</div>',
+  },
+  footer: {
+    height: "28mm",
+    contents: {
+      first: "Cover page",
+      2: "Second page",
+      default:
+        '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>',
+      last: "Last Page",
+    },
+  },
+};
+```
+
+## `ifCond` helper
+
+Compare two values in the template:
+
+```handlebars
+{{#ifCond inputData "===" toCheckValue}}
+  …
+{{/ifCond}}
+```
+
+Example with `each`:
+
+```html
+<ul>
+  {{#each users}}
+  <li>
+    {{this.name}}
+    {{#ifCond this.age "===" "26"}}
+      (twenty-six)
+    {{/ifCond}}
+  </li>
+  {{/each}}
+</ul>
+```
+
+Supported operators: `==`, `===`, `!=`, `!==`, `<`, `<=`, `>`, `>=`, `&&`, `||`.
+
+**Note:** Only two operands are compared per `ifCond`.
+
+## License
+
+[MIT](LICENSE)
