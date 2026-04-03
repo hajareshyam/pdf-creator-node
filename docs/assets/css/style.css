@@ -495,6 +495,89 @@ pre code {
   max-width: 52ch;
 }
 
+.author-section .author-card {
+  max-width: 40rem;
+  padding: 1.35rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px var(--shadow);
+}
+
+.author-card__name {
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.author-card__role {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.author-card__contact {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+}
+
+.author-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.author-social__link {
+  display: inline-block;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(91, 156, 245, 0.1);
+  border: 1px solid rgba(91, 156, 245, 0.25);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.author-social__link:hover {
+  color: var(--accent-hover);
+  background: rgba(91, 156, 245, 0.16);
+  border-color: rgba(91, 156, 245, 0.4);
+  text-decoration: none;
+}
+
+html[data-theme="light"] .author-social__link {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+html[data-theme="light"] .author-social__link:hover {
+  background: rgba(37, 99, 235, 0.12);
+  border-color: rgba(37, 99, 235, 0.35);
+}
+
+.author-card__note {
+  margin: 1rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.author-card__note code {
+  font-size: 0.85em;
+}
+
 .steps {
   list-style: none;
   margin: 0;

@@ -1,5 +1,5 @@
-import type { CreateOptions } from "html-pdf";
 import type { PdfChromeOptions, PdfCreateOptions } from "./types";
+import type { PdfRenderOptions } from "./pdfRenderOptions";
 
 function escapeHtml(s: string): string {
   return s
@@ -18,7 +18,7 @@ function defaultHeaderHtml(title: string): string {
 function buildFooterContents(
   copyright: string | undefined,
   showPageNumbers: boolean
-): NonNullable<NonNullable<CreateOptions["footer"]>["contents"]> {
+): NonNullable<NonNullable<PdfRenderOptions["footer"]>["contents"]> {
   const hasCopyright = copyright != null && String(copyright).trim() !== "";
   const pagePart = showPageNumbers
     ? '<span style="color:#444">{{page}}</span>/<span>{{pages}}</span>'
@@ -50,9 +50,9 @@ function buildFooterContents(
  * Builds partial html-pdf options from layout / header / footer / copyright.
  * Use {@link mergePdfCreateOptions} to merge with explicit `format`, `header`, `footer`.
  */
-export function buildPdfChrome(chrome?: PdfChromeOptions): Partial<CreateOptions> {
+export function buildPdfChrome(chrome?: PdfChromeOptions): Partial<PdfRenderOptions> {
   if (!chrome) return {};
-  const out: Partial<CreateOptions> = {};
+  const out: Partial<PdfRenderOptions> = {};
 
   if (chrome.layout) {
     const L = chrome.layout;
@@ -108,9 +108,9 @@ export function buildPdfChrome(chrome?: PdfChromeOptions): Partial<CreateOptions
 }
 
 /**
- * Merges `pdfChrome` with explicit html-pdf fields. Explicit `header` / `footer` / `format` win.
+ * Merges `pdfChrome` with explicit PDF options. Explicit `header` / `footer` / `format` win.
  */
-export function mergePdfCreateOptions(options: PdfCreateOptions): CreateOptions {
+export function mergePdfCreateOptions(options: PdfCreateOptions): PdfRenderOptions {
   const { handlebarsHelpers: _h, pdfChrome, ...userPdfOptions } = options;
   const fromChrome = buildPdfChrome(pdfChrome);
   return {

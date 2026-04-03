@@ -1,6 +1,6 @@
 {
   "name": "pdf-creator-node",
-  "version": "2.5.0",
+  "version": "4.0.0",
   "description": "node pdf creator",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,7 +30,8 @@
     "html2pdf",
     "html-to-pdf",
     "handlebars",
-    "html-pdf",
+    "puppeteer",
+    "chromium",
     "nodejs",
     "express",
     "report",
@@ -40,10 +41,9 @@
   "license": "MIT",
   "dependencies": {
     "handlebars": "^4.7.7",
-    "html-pdf": "^3.0.1"
+    "puppeteer": "^24.0.0"
   },
   "devDependencies": {
-    "@types/html-pdf": "^3.0.3",
     "@types/node": "^22.13.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"

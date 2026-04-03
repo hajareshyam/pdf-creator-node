@@ -35,6 +35,7 @@
           <a href="#guide">Guide</a>
           <a href="#pdf-chrome">Layout &amp; header/footer</a>
           <a href="#ifcond">ifCond</a>
+          <a href="#author">Author</a>
         </nav>
         <div class="site-header__actions">
           <button
@@ -57,7 +58,7 @@
     <main id="main" class="main">
       <div class="wrap">
         <header class="hero">
-          <p class="hero__eyebrow">Node.js · Handlebars · html-pdf</p>
+          <p class="hero__eyebrow">Node.js · Handlebars · Puppeteer (Chromium)</p>
           <h1>pdf-creator-node</h1>
           <p class="tagline">
             Turn HTML templates into PDFs — write templates with Handlebars, get a
@@ -228,8 +229,9 @@ var html = fs.readFileSync("template.html", "utf8");</code></pre>
           <div class="section__head">
             <h2 id="pdf-chrome-heading">Layout, header, footer, copyright</h2>
             <p class="section__lede">
-              Use <code>pdfChrome</code> on the second argument for paper size, repeating
-              header (<code>title</code> or <code>html</code>), and footer with optional
+              v4 uses <strong>Puppeteer</strong> (Chromium), not PhantomJS. Use
+              <code>pdfChrome</code> on the second argument for paper size, repeating header
+              (<code>title</code> or <code>html</code>), and footer with optional
               <code>copyright</code> and page numbers (<code>{{page}}</code> /
               <code>{{pages}}</code>). Plain strings are HTML-escaped. Direct
               <code>format</code> / <code>header</code> / <code>footer</code> on the same
@@ -255,8 +257,7 @@ pdf.create(document, options);</code></pre>
           <p class="steps__text">
             For full control, pass <code>header</code>, <code>footer</code>, and
             <code>format</code> in the same options object as
-            <a href="https://www.npmjs.com/package/html-pdf">html-pdf</a> expects (see
-            readme).
+            <a href="https://pptr.dev/">Puppeteer</a> PDF options (see readme).
           </p>
         </section>
 
@@ -287,21 +288,62 @@ pdf.create(document, options);</code></pre>
           </aside>
         </section>
 
+        <section id="author" class="section author-section" aria-labelledby="author-heading">
+          <div class="section__head">
+            <h2 id="author-heading">Author</h2>
+            <p class="section__lede">
+              Maintainer of this package — questions and contributions welcome on GitHub.
+            </p>
+          </div>
+          <div class="author-card">
+            <p class="author-card__name">Shyam Hajare</p>
+            <p class="author-card__role">Open-source maintainer · Node.js &amp; PDF tooling</p>
+            <p class="author-card__contact">
+              <a href="mailto:hajareshyam@gmail.com">hajareshyam@gmail.com</a>
+            </p>
+            <ul class="author-social" aria-label="Author social and profiles">
+              <li>
+                <a
+                  class="author-social__link"
+                  href="https://github.com/hajareshyam"
+                  rel="noopener noreferrer me"
+                  >GitHub</a
+                >
+              </li>
+              <li>
+                <a
+                  class="author-social__link"
+                  href="https://www.npmjs.com/package/pdf-creator-node"
+                  rel="noopener noreferrer"
+                  >npm package</a
+                >
+              </li>
+            </ul>
+            <p class="author-card__note">
+              To add LinkedIn, X (Twitter), Mastodon, or other links, edit
+              <code>docs/index.html</code> and duplicate a line inside
+              <code>&lt;ul class="author-social"&gt;</code>.
+            </p>
+          </div>
+        </section>
+
         <footer class="site-footer">
           <div class="site-footer__links">
             <a
               href="https://github.com/hajareshyam/pdf-creator-node/blob/master/LICENSE"
               >License</a
             >
-            <a href="https://github.com/hajareshyam/pdf-creator-node">GitHub</a>
-            <a href="https://www.npmjs.com/package/pdf-creator-node">npm</a>
+            <a href="https://github.com/hajareshyam/pdf-creator-node">Repository</a>
+            <a href="https://www.npmjs.com/package/pdf-creator-node">npm package</a>
+            <a href="https://github.com/hajareshyam">Author on GitHub</a>
             <a
               href="https://github.com/hajareshyam/pdf-creator-node/edit/master/docs/index.html"
               >Edit this page</a
             >
           </div>
           <p class="site-footer__meta">
-            <strong>pdf-creator-node</strong> · Shyam Hajare
+            <strong>pdf-creator-node</strong> ·
+            <a href="#author">Shyam Hajare</a>
           </p>
         </footer>
       </div>

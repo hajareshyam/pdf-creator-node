@@ -1,5 +1,5 @@
-import type { CreateOptions } from "html-pdf";
 import type { HelperDelegate } from "handlebars";
+import type { PdfRenderOptions } from "./pdfRenderOptions";
 
 /** Options passed to Handlebars `ifCond` helper inverse/fn blocks */
 export interface IfCondOptions {
@@ -39,13 +39,13 @@ export type PdfDocument =
 /** @deprecated Use `PdfDocument` — kept for compatibility with earlier typings */
 export type Document = PdfDocument;
 
-/** Page size / margins — maps to html-pdf paper options */
+/** Page size / margins — maps to PDF engine paper options */
 export interface PdfLayout {
   format?: "A3" | "A4" | "A5" | "Legal" | "Letter" | "Tabloid";
   orientation?: "portrait" | "landscape";
   width?: string;
   height?: string;
-  border?: CreateOptions["border"];
+  border?: PdfRenderOptions["border"];
 }
 
 /** Repeating header — use `html` or a plain `title` (escaped) */
@@ -72,7 +72,7 @@ export interface PdfFooterConfig {
 }
 
 /**
- * High-level layout + header/footer/copyright. Merged before `html-pdf` runs; any
+ * High-level layout + header/footer/copyright. Merged before PDF render; any
  * explicit `format`, `header`, `footer` on the same options object overrides these.
  */
 export interface PdfChromeOptions {
@@ -82,11 +82,11 @@ export interface PdfChromeOptions {
 }
 
 /**
- * Options for `html-pdf`, plus optional Handlebars helpers for this render only
+ * PDF engine options (Puppeteer / Chromium), plus optional Handlebars helpers for this render only
  * (rendering uses an isolated Handlebars instance).
  */
-export type PdfCreateOptions = CreateOptions & {
+export type PdfCreateOptions = PdfRenderOptions & {
   handlebarsHelpers?: Record<string, HelperDelegate>;
-  /** Convenience presets merged into html-pdf options (explicit keys override) */
+  /** Convenience presets merged into PDF options (explicit keys override) */
   pdfChrome?: PdfChromeOptions;
 };

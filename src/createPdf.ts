@@ -1,9 +1,13 @@
 import Handlebars from "handlebars";
-import pdf from "html-pdf";
-import type { FileInfo } from "html-pdf";
+import {
+  bufferToStream,
+  renderPdfToBuffer,
+  writePdfToFile,
+} from "./pdfPuppeteer";
 import { mergePdfCreateOptions } from "./pdfChrome";
 import { registerHandlebarsHelpers } from "./registerHandlebarsHelpers";
 import type { PdfCreateOptions, PdfDocument } from "./types";
+import type { PdfFileInfo } from "./pdfRenderOptions";
 import { validatePdfDocument } from "./validation";
 
 function renderHtml(document: PdfDocument, options: PdfCreateOptions): string {
@@ -23,52 +27,36 @@ function renderHtml(document: PdfDocument, options: PdfCreateOptions): string {
 }
 
 /**
- * Renders the Handlebars template and generates a PDF via html-pdf.
+ * Renders the Handlebars template and generates a PDF via Puppeteer (headless Chromium).
  */
 export function create(
   document: PdfDocument,
   options: PdfCreateOptions
-): Promise<Buffer | NodeJS.ReadableStream | FileInfo> {
-  return new Promise((resolve, reject) => {
+): Promise<Buffer | NodeJS.ReadableStream | PdfFileInfo> {
+  return (async () => {
     try {
       validatePdfDocument(document);
     } catch (e) {
-      reject(e);
-      return;
+      throw e;
     }
 
     let html: string;
     try {
       html = renderHtml(document, options);
     } catch (e) {
-      reject(e);
-      return;
+      throw e;
     }
 
     const pdfOptions = mergePdfCreateOptions(options);
-    const pdfPromise = pdf.create(html, pdfOptions);
+    const buffer = await renderPdfToBuffer(html, pdfOptions);
 
     switch (document.type) {
       case "buffer":
-        pdfPromise.toBuffer((err, res) => {
-          if (err) reject(err);
-          else resolve(res);
-        });
-        break;
-
+        return buffer;
       case "stream":
-        pdfPromise.toStream((err, res) => {
-          if (err) reject(err);
-          else resolve(res);
-        });
-        break;
-
+        return bufferToStream(buffer);
       default:
-        pdfPromise.toFile(document.path!, (err, res) => {
-          if (err) reject(err);
-          else resolve(res);
-        });
-        break;
+        return writePdfToFile(document.path!, buffer);
     }
-  });
+  })();
 }

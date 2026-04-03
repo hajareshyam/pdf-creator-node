@@ -1,5 +1,27 @@
 # Changelog
 
+## [4.0.0] — 2026-04-03
+
+### Breaking
+
+- **Rendering engine:** **PhantomJS / `html-pdf` replaced with [Puppeteer](https://pptr.dev/) (headless Chromium).** Install footprint is larger (Chromium download on `npm install`). PDF output may differ slightly from Phantom.
+- **Types:** `PdfCreateOptions` is now based on **`PdfRenderOptions`** (no dependency on `@types/html-pdf`). **`phantomPath`**, **`phantomArgs`**, and related fields are deprecated no-ops.
+- **Footer `contents`:** only one repeating template is used — **`default`**, else **`first`**, else **`last`**. Per-page numeric keys (e.g. page `2`) are not applied.
+
+### Added
+
+- **`src/pdfPuppeteer.ts`:** `renderPdfToBuffer`, mapping from options to `page.pdf()`.
+- **`htmlPdfTokensToPuppeteer()`** exported to map `{{page}}` / `{{pages}}` for print header/footer.
+- **`PdfRenderOptions`**, **`PdfFileInfo`** in `pdfRenderOptions.ts`.
+
+### Removed
+
+- Dependencies **`html-pdf`**, **`@types/html-pdf`**.
+
+### Documentation
+
+- README: **Strengths and trade-offs** (Chromium vs PDFKit, footprint, when to scale).
+
 ## [2.5.0] — 2026-04-03
 
 ### Added
