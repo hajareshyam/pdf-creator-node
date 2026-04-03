@@ -3,7 +3,7 @@ import { dirname } from "path";
 import type { Browser, PDFOptions } from "puppeteer";
 import puppeteer from "puppeteer";
 import { Readable } from "stream";
-import type { PdfFileInfo, PdfRenderOptions } from "./pdfRenderOptions";
+import type { PdfFileInfo, PdfRenderOptions } from "./renderOptions";
 
 /** Maps html-pdf `{{page}}` / `{{pages}}` to Puppeteer header/footer template tokens. */
 export function htmlPdfTokensToPuppeteer(html: string): string {

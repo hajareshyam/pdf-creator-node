@@ -1,14 +1,20 @@
-var pdf = require("pdf-creator-node");
-var fs = require("fs");
-var path = require("path");
+/**
+ * Example: generate a PDF from a Handlebars HTML template.
+ * Depends on the parent package: from `example/` run `npm install` then `npm start`.
+ * Uses the public API only (`require("pdf-creator-node")` — same as consumers).
+ */
 
-var html = fs.readFileSync(path.join(__dirname, "./template.html"), "utf8");
+const pdf = require("pdf-creator-node");
+const fs = require("fs");
+const path = require("path");
+
+const html = fs.readFileSync(path.join(__dirname, "template.html"), "utf8");
 
 /**
  * Options use pdfChrome for layout + repeating header/footer (copyright + page numbers).
  * You can still set format/header/footer directly on options — they override pdfChrome.
  */
-var options = {
+const options = {
   pdfChrome: {
     layout: {
       format: "A3",
@@ -23,25 +29,28 @@ var options = {
   },
 };
 
-var users = [
+const users = [
   { name: "Shyam", age: "26" },
   { name: "Navjot", age: "26" },
   { name: "Vitthal", age: "26" },
 ];
 
-// Default is file output. Use type: "buffer" | "stream" for in-memory output.
-var document = {
-  html: html,
+/** Default is file output. Use type: "buffer" | "stream" for in-memory output. */
+const document = {
+  html,
   data: { users },
-  path: "./output.pdf",
+  path: path.join(__dirname, "output.pdf"),
   type: "",
 };
 
-pdf
-  .create(document, options)
-  .then(function (res) {
+async function main() {
+  try {
+    const res = await pdf.create(document, options);
     console.log(res);
-  })
-  .catch(function (error) {
+  } catch (error) {
     console.error(error);
-  });
+    process.exitCode = 1;
+  }
+}
+
+main();

@@ -116,15 +116,67 @@
     });
   }
 
+  /** Menu / submenu: click toggles (required on narrow viewports); Escape / outside click closes. */
+  function initNavSubmenus() {
+    var nav = document.querySelector(".site-nav");
+    if (!nav) return;
+
+    function setOpen(li, open) {
+      var btn = li.querySelector(".site-nav__trigger");
+      if (open) {
+        li.classList.add("is-open");
+        if (btn) btn.setAttribute("aria-expanded", "true");
+      } else {
+        li.classList.remove("is-open");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+      }
+    }
+
+    function closeAll() {
+      nav.querySelectorAll(".site-nav__item.is-open").forEach(function (li) {
+        setOpen(li, false);
+      });
+    }
+
+    nav.querySelectorAll(".site-nav__trigger").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var li = btn.closest(".site-nav__item");
+        if (!li) return;
+        var wasOpen = li.classList.contains("is-open");
+        closeAll();
+        if (!wasOpen) setOpen(li, true);
+      });
+    });
+
+    nav.querySelectorAll(".site-nav__submenu a").forEach(function (a) {
+      a.addEventListener("click", function () {
+        closeAll();
+      });
+    });
+
+    document.addEventListener("click", closeAll);
+    nav.addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeAll();
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       initTheme();
       initCopyButtons();
       initBackToTop();
+      initNavSubmenus();
     });
   } else {
     initTheme();
     initCopyButtons();
     initBackToTop();
+    initNavSubmenus();
   }
 })();

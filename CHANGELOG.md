@@ -1,5 +1,20 @@
 # Changelog
 
+## [Unreleased]
+
+## [4.0.1] — 2026-04-03
+
+### Changed
+
+- **Source layout:** `src/pdf/`, `src/handlebars/`, `src/types/`, `src/validation/`, `src/create/index.ts` (`create` entrypoint); root keeps `index.ts` only. Published API unchanged.
+- **Example (`example/`):** `index.js` uses async/await, resolves output path with `path.join`; `template.html` age field corrected (`{{this.age}}`); `npm start` script.
+
+### Documentation
+
+- **README:** **AWS Lambda / serverless** — deployment limits, container vs zip, memory and timeout, note that custom `executablePath` is not exposed on options yet.
+- **README:** **Margins** (`border`), **custom fonts** (hosted + `base` + `@font-face`), **images** (remote, `base`, data URLs, WebP, header/footer), **page-break** hints for wide tables.
+- **GitHub Pages (`docs/`):** **Fonts & images** section and nav link; guide **footer** example aligned with v4 (single template); note on unsupported per-page footer keys; author section with social links.
+
 ## [4.0.0] — 2026-04-03
 
 ### Breaking

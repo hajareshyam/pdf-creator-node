@@ -3,12 +3,12 @@ import {
   bufferToStream,
   renderPdfToBuffer,
   writePdfToFile,
-} from "./pdfPuppeteer";
-import { mergePdfCreateOptions } from "./pdfChrome";
-import { registerHandlebarsHelpers } from "./registerHandlebarsHelpers";
-import type { PdfCreateOptions, PdfDocument } from "./types";
-import type { PdfFileInfo } from "./pdfRenderOptions";
-import { validatePdfDocument } from "./validation";
+} from "../pdf/puppeteer";
+import { mergePdfCreateOptions } from "../pdf/chrome";
+import { registerHandlebarsHelpers } from "../handlebars/registerHandlebarsHelpers";
+import type { PdfCreateOptions, PdfDocument } from "../types";
+import type { PdfFileInfo } from "../pdf/renderOptions";
+import { validatePdfDocument } from "../validation";
 
 function renderHtml(document: PdfDocument, options: PdfCreateOptions): string {
   const hb = Handlebars.create();

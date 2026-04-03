@@ -1,5 +1,5 @@
 import type { HelperDelegate } from "handlebars";
-import type { PdfRenderOptions } from "./pdfRenderOptions";
+import type { PdfRenderOptions } from "../pdf/renderOptions";
 
 /** Options passed to Handlebars `ifCond` helper inverse/fn blocks */
 export interface IfCondOptions {

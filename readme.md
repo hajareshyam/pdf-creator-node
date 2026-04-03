@@ -181,6 +181,54 @@ const options = {
 };
 ```
 
+### Margins
+
+**Page margins** are the **`border`** option (string or per-side object). That maps to Chromium’s PDF margins—the content area is inset by this amount.
+
+### Custom fonts
+
+v4 renders with **Chromium**, so fonts work like in a normal web page: **`@font-face`**, **`font-family`**, and hosted fonts.
+
+**Hosted fonts (Google Fonts, jsDelivr, etc.)** — add a `<link>` in `<head>` and set `font-family` in your CSS. The process must be able to reach the font URL.
+
+**Local files** — use `@font-face` with a relative `url('fonts/MyFont.woff2')` and set **`base`** on the options object to the folder that contains those paths (it becomes Puppeteer’s `baseURL`). Use a **trailing slash** when `base` is a directory:
+
+```javascript
+const path = require("path");
+
+const options = {
+  format: "A4",
+  base: path.join(__dirname, "assets") + path.sep,
+};
+```
+
+**Header / footer HTML** is rendered in Chromium’s print header/footer UI. It does not automatically inherit styles from the main template. To use the same font there, repeat a `<link>` / `@font-face` in the `header.contents` / `footer.contents` string, or rely on **system fonts** for those snippets.
+
+### Images
+
+Remote URLs, local files, base64 data URLs, and WebP:
+
+- **Remote:** `src="https://..."` works when the environment can fetch the URL.
+- **Local files:** set **`base`** and use a path relative to that root (same as for fonts).
+- **Data URLs:** `data:image/png;base64,...` (use the correct MIME type). **WebP** is generally supported in Chromium; if something fails, try **PNG** or **JPEG**.
+- **Images inside `header` / `footer`:** prefer **absolute** `https://` URLs, or paths that resolve correctly with your **`base`**; relative paths are easy to get wrong in the print template.
+
+Wide tables or “horizontal scroll” in a browser do not carry over as scroll in a PDF—use **`orientation: "landscape"`**, smaller type, or table/CSS layout that fits the page width. For keeping blocks together on one page, try CSS **`break-inside: avoid`** / **`page-break-inside: avoid`** (behavior follows Chromium’s print rules).
+
+### AWS Lambda and serverless
+
+**It can work, but not with a default “zip only” deploy in most cases.** This package runs **Puppeteer** with **headless Chromium**, which is large and memory-hungry.
+
+| Topic | Guidance |
+| --- | --- |
+| **Deployment size** | Default `puppeteer` installs a full Chromium build (hundreds of MB). AWS Lambda **zip** deployments have a **250 MB unzipped** limit, so the stock layout often **does not fit**. |
+| **What usually works** | **Lambda container images** (Docker) with Chromium + Node, or a **trimmed Chromium** packaged for Lambda (community layers / [`@sparticuz/chromium`](https://github.com/Sparticuz/chromium)–style setups) with **`puppeteer-core`**. |
+| **This library today** | `puppeteer.launch()` is called with **`--no-sandbox`**, **`--disable-setuid-sandbox`**, and **`--disable-dev-shm-usage`** (typical for containers and many serverless images). There is **no public option** to set **`executablePath`** or merge extra launch flags—using a custom Chromium binary may require a **fork**, **patch**, or a **wrapper** that replaces how the browser is launched until such options exist. |
+| **Memory & timeout** | Plan for **~1.5–3 GB** RAM and a **timeout** that covers cold start + browser launch + PDF generation. |
+| **Alternatives** | Run PDF generation on **ECS/Fargate**, **EC2**, or a **dedicated microservice**; keep Lambda for orchestration only. |
+
+For CI and non-Lambda servers, you can tune install size with [`PUPPETEER_SKIP_DOWNLOAD`](https://pptr.dev/guides/installation#download-chromium-during-installation) / [`PUPPETEER_CACHE_DIR`](https://pptr.dev/guides/configuration) when you supply your own browser.
+
 ## `ifCond` helper
 
 Compare two values in the template:

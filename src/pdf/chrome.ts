@@ -1,5 +1,5 @@
-import type { PdfChromeOptions, PdfCreateOptions } from "./types";
-import type { PdfRenderOptions } from "./pdfRenderOptions";
+import type { PdfChromeOptions, PdfCreateOptions } from "../types";
+import type { PdfRenderOptions } from "./renderOptions";
 
 function escapeHtml(s: string): string {
   return s

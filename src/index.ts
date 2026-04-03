@@ -2,14 +2,14 @@
  * @author Shyam Hajare <hajareshyam@gmail.com>
  */
 
-import { registerHandlebarsHelpers } from "./registerHandlebarsHelpers";
-import { create } from "./createPdf";
+import { registerHandlebarsHelpers } from "./handlebars/registerHandlebarsHelpers";
+import { create } from "./create";
 
 registerHandlebarsHelpers();
 
 export { create };
-export { buildPdfChrome } from "./pdfChrome";
-export { htmlPdfTokensToPuppeteer } from "./pdfPuppeteer";
+export { buildPdfChrome } from "./pdf/chrome";
+export { htmlPdfTokensToPuppeteer } from "./pdf/puppeteer";
 export type {
   Document,
   IfCondOptions,
@@ -23,8 +23,8 @@ export type {
   PdfHeaderConfig,
   PdfLayout,
 } from "./types";
-export type { PdfFileInfo, PdfRenderOptions } from "./pdfRenderOptions";
-export type { PdfFileInfo as FileInfo } from "./pdfRenderOptions";
+export type { PdfFileInfo, PdfRenderOptions } from "./pdf/renderOptions";
+export type { PdfFileInfo as FileInfo } from "./pdf/renderOptions";
 
 const api = { create };
 export default api;

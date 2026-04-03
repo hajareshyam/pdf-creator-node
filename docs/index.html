@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="pdf-creator-node — generate PDFs from HTML templates with Handlebars in Node.js."
+      content="pdf-creator-node v4 — HTML + Handlebars to PDF with Puppeteer: create(), pdfChrome, custom helpers, buffers/streams, and TypeScript types."
     />
     <meta name="theme-color" content="#0f1419" />
     <title>pdf-creator-node — HTML to PDF for Node.js</title>
@@ -28,30 +28,116 @@
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header" role="banner">
-      <div class="site-header__inner">
-        <a class="site-header__brand" href="#">pdf-creator-node</a>
-        <nav class="site-nav" aria-label="On this page">
-          <a href="#quick-start">Quick start</a>
-          <a href="#guide">Guide</a>
-          <a href="#pdf-chrome">Layout &amp; header/footer</a>
-          <a href="#ifcond">ifCond</a>
-          <a href="#author">Author</a>
-        </nav>
-        <div class="site-header__actions">
-          <button
-            type="button"
-            class="theme-toggle"
-            aria-pressed="true"
-            aria-label="Switch to light theme"
-          >
-            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true"
-              >☀</span
+      <div class="site-header__shell">
+        <div class="site-header__top">
+          <a class="site-header__brand" href="#">pdf-creator-node</a>
+          <div class="site-header__actions">
+            <button
+              type="button"
+              class="theme-toggle"
+              aria-pressed="true"
+              aria-label="Switch to light theme"
             >
-            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"
-              >☽</span
-            >
-          </button>
+              <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true"
+                >☀</span
+              >
+              <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"
+                >☽</span
+              >
+            </button>
+          </div>
         </div>
+        <nav class="site-nav" aria-label="On this page">
+          <ul class="site-nav__menu">
+            <li class="site-nav__item">
+              <button
+                type="button"
+                class="site-nav__trigger"
+                id="nav-trigger-start"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="nav-sub-start"
+              >
+                Get started
+                <span class="site-nav__caret" aria-hidden="true"></span>
+              </button>
+              <ul class="site-nav__submenu" id="nav-sub-start" role="list">
+                <li><a href="#quick-start">Quick start</a></li>
+                <li><a href="#guide">Workflow</a></li>
+              </ul>
+            </li>
+            <li class="site-nav__item">
+              <button
+                type="button"
+                class="site-nav__trigger"
+                id="nav-trigger-api"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="nav-sub-api"
+              >
+                API
+                <span class="site-nav__caret" aria-hidden="true"></span>
+              </button>
+              <ul class="site-nav__submenu" id="nav-sub-api" role="list">
+                <li><a href="#api">API &amp; types</a></li>
+                <li><a href="#advanced">Advanced</a></li>
+                <li><a href="#validation">Validation</a></li>
+              </ul>
+            </li>
+            <li class="site-nav__item">
+              <button
+                type="button"
+                class="site-nav__trigger"
+                id="nav-trigger-pdf"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="nav-sub-pdf"
+              >
+                PDF
+                <span class="site-nav__caret" aria-hidden="true"></span>
+              </button>
+              <ul class="site-nav__submenu" id="nav-sub-pdf" role="list">
+                <li><a href="#pdf-options">PDF options</a></li>
+                <li><a href="#pdf-chrome">pdfChrome</a></li>
+              </ul>
+            </li>
+            <li class="site-nav__item">
+              <button
+                type="button"
+                class="site-nav__trigger"
+                id="nav-trigger-templates"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="nav-sub-templates"
+              >
+                Templates
+                <span class="site-nav__caret" aria-hidden="true"></span>
+              </button>
+              <ul class="site-nav__submenu" id="nav-sub-templates" role="list">
+                <li><a href="#handlebars-helpers">Custom helpers</a></li>
+                <li><a href="#ifcond">ifCond</a></li>
+                <li><a href="#fonts-images">Fonts &amp; images</a></li>
+              </ul>
+            </li>
+            <li class="site-nav__item">
+              <button
+                type="button"
+                class="site-nav__trigger"
+                id="nav-trigger-more"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="nav-sub-more"
+              >
+                More
+                <span class="site-nav__caret" aria-hidden="true"></span>
+              </button>
+              <ul class="site-nav__submenu" id="nav-sub-more" role="list">
+                <li><a href="#serverless">Serverless</a></li>
+                <li><a href="#author">Author</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
 
@@ -103,11 +189,12 @@
           </div>
           <div class="install-block" tabindex="-1">npm i pdf-creator-node</div>
           <p class="hero__hint">
-            Node 18+ · See
+            Node 18+ · Puppeteer bundles Chromium (large install). This site documents the public
+            API; the
             <a href="https://github.com/hajareshyam/pdf-creator-node/blob/master/readme.md"
-              >full readme on GitHub</a
+              >readme</a
             >
-            for TypeScript, validation, and <code>handlebarsHelpers</code>.
+            has the same detail plus upgrade notes from PhantomJS-era releases.
           </p>
         </header>
 
@@ -143,6 +230,149 @@ pdf
   .create(document, options)
   .then((res) =&gt; console.log(res))
   .catch((err) =&gt; console.error(err));</code></pre>
+        </section>
+
+        <section id="api" class="section" aria-labelledby="api-heading">
+          <div class="section__head">
+            <h2 id="api-heading">API &amp; TypeScript types</h2>
+            <p class="section__lede">
+              The library registers the built-in <code>ifCond</code> helper once at import time.
+              Each <code>create()</code> call uses an isolated Handlebars instance plus any
+              per-call <code>handlebarsHelpers</code>.
+            </p>
+          </div>
+          <h3 class="subsection-title">Exports</h3>
+          <ul class="feature-list">
+            <li>
+              <strong>Default export</strong> — <code>{ create }</code> (same as
+              <code>import pdf from "pdf-creator-node"</code> then <code>pdf.create</code>).
+            </li>
+            <li>
+              <strong>Named</strong> — <code>create</code>, <code>buildPdfChrome</code>,
+              <code>htmlPdfTokensToPuppeteer</code>.
+            </li>
+            <li>
+              <strong>Types</strong> — <code>PdfDocument</code>, <code>PdfDocumentFile</code>,
+              <code>PdfDocumentBuffer</code>, <code>PdfDocumentStream</code>,
+              <code>PdfCreateOptions</code>, <code>PdfRenderOptions</code>, <code>PdfFileInfo</code>,
+              <code>FileInfo</code> (alias of <code>PdfFileInfo</code>), <code>PdfChromeOptions</code>,
+              <code>PdfLayout</code>, <code>PdfHeaderConfig</code>, <code>PdfFooterConfig</code>,
+              <code>IfCondOptions</code>, <code>Document</code> (deprecated; use
+              <code>PdfDocument</code>).
+            </li>
+          </ul>
+          <pre class="code-block"><code>import pdf, { create, buildPdfChrome, htmlPdfTokensToPuppeteer } from "pdf-creator-node";
+import type {
+  PdfDocument,
+  PdfCreateOptions,
+  PdfRenderOptions,
+  PdfChromeOptions,
+  PdfFileInfo,
+} from "pdf-creator-node";
+
+// Equivalent:
+await pdf.create(doc, opts);
+await create(doc, opts);</code></pre>
+          <p>
+            <code>PdfCreateOptions</code> is <code>PdfRenderOptions</code> plus optional
+            <code>handlebarsHelpers</code> and <code>pdfChrome</code>. Top-level PDF fields override
+            the same keys merged from <code>pdfChrome</code>.
+          </p>
+          <h3 class="subsection-title"><code>create(document, options)</code></h3>
+          <p>
+            Compiles <code>document.html</code> with Handlebars and <code>document.data</code>,
+            renders with headless Chromium, and returns a <strong>Promise</strong>:
+          </p>
+          <ul class="feature-list">
+            <li>
+              <strong>File</strong> (default): <code>path</code> set, <code>type</code> omitted,
+              <code>""</code>, or <code>"file"</code> → resolves to <code>PdfFileInfo</code>
+              (<code>{ filename: string }</code>).
+            </li>
+            <li><strong>Buffer:</strong> <code>type: "buffer"</code> → <code>Buffer</code>.</li>
+            <li>
+              <strong>Stream:</strong> <code>type: "stream"</code> →
+              <code>NodeJS.ReadableStream</code>.
+            </li>
+          </ul>
+          <p>
+            If <code>html</code> is a fragment (no <code>&lt;!DOCTYPE&gt;</code> /
+            <code>&lt;html&gt;</code>), the renderer wraps it in a minimal HTML document before load.
+          </p>
+        </section>
+
+        <section id="pdf-options" class="section" aria-labelledby="pdf-options-heading">
+          <div class="section__head">
+            <h2 id="pdf-options-heading">PDF engine options</h2>
+            <p class="section__lede">
+              Options follow the historical html-pdf shape where possible. v4 maps them to
+              Puppeteer; only the fields below are honored by the renderer unless noted.
+            </p>
+          </div>
+          <h3 class="subsection-title">Applied by v4 (Chromium)</h3>
+          <ul class="feature-list">
+            <li>
+              <strong>Page size:</strong> <code>format</code> (A3, A4, A5, Legal, Letter, Tabloid),
+              <code>orientation</code>, or custom <code>width</code> + <code>height</code> (CSS
+              units, e.g. <code>8in</code>, <code>210mm</code>).
+            </li>
+            <li>
+              <strong>Margins:</strong> <code>border</code> — string or per-side
+              <code>{ top, right, bottom, left }</code>.
+            </li>
+            <li>
+              <strong>Header / footer:</strong> <code>header.contents</code> (HTML string);
+              <code>footer.contents</code> — only <strong>one</strong> template is used, in order:
+              <code>default</code>, else <code>first</code>, else <code>last</code>. Per-page numeric
+              keys are ignored. Use <code>{{page}}</code> and <code>{{pages}}</code> in HTML; they
+              are converted to Chromium print tokens automatically.
+            </li>
+            <li>
+              <strong>Assets:</strong> <code>base</code> — base URL for relative
+              <code>src</code>/<code>href</code> (use a trailing slash for a directory).
+            </li>
+            <li>
+              <strong>Timing:</strong> <code>timeout</code> (ms, default <code>30000</code>) for
+              navigation and <code>setContent</code>; <code>renderDelay</code> — only a
+              <strong>number</strong> (ms) is applied after load; the string <code>"manual"</code> has
+              no effect.
+            </li>
+            <li>
+              <strong>Network:</strong> <code>httpHeaders</code> (extra HTTP headers for the page),
+              <code>httpCookies</code> (passed to <code>page.setCookie</code> before load).
+            </li>
+            <li>
+              <strong>Internals:</strong> PDFs are generated with
+              <code>printBackground: true</code> so background colors and images print.
+            </li>
+          </ul>
+          <pre class="code-block"><code>// Optional: timing &amp; network (merge with your other options)
+{
+  timeout: 60000,
+  renderDelay: 250,
+  httpHeaders: { "Accept-Language": "en-US" },
+  httpCookies: [
+    { name: "session", value: "abc", path: "/", domain: "example.com" },
+  ],
+}</code></pre>
+          <h3 class="subsection-title">In types only / no effect in v4</h3>
+          <p>
+            These exist on <code>PdfRenderOptions</code> for backward compatibility but are
+            <strong>not</strong> used by the Puppeteer pipeline:
+            <code>directory</code>, <code>paginationOffset</code>, <code>zoomFactor</code>,
+            <code>type</code> (png/jpeg), <code>quality</code>, <code>childProcessOptions</code>, and
+            the deprecated PhantomJS fields <code>phantomPath</code>, <code>phantomArgs</code>,
+            <code>localUrlAccess</code>, <code>script</code>.
+          </p>
+          <h3 class="subsection-title">Upgrading from PhantomJS / v2</h3>
+          <p>
+            v4 is Chromium-based — layout can differ slightly. Footer <code>contents</code> still
+            uses one slot (<code>default</code>, else <code>first</code>, else <code>last</code>).
+            Phantom-only options are ignored. See the
+            <a href="https://github.com/hajareshyam/pdf-creator-node/blob/master/readme.md#upgrading-from-v2x-phantom--html-pdf"
+              >readme — upgrading from v2</a
+            >.
+          </p>
         </section>
 
         <section id="guide" class="section" aria-labelledby="guide-heading">
@@ -188,12 +418,13 @@ var html = fs.readFileSync("template.html", "utf8");</code></pre>
                 Size with <code>height</code>/<code>width</code> (e.g.
                 <code>10.5in</code>; units: mm, cm, in, px) or
                 <code>format</code> (A3, A4, A5, Legal, Letter, Tabloid) and
-                <code>orientation</code>.
+                <code>orientation</code>. Full field list:
+                <a href="#pdf-options">PDF engine options</a>.
               </p>
               <pre class="code-block"><code>var options = {
   format: "A3",
   orientation: "portrait",
-  border: "10mm",
+  border: "10mm", // page margins
   header: {
     height: "45mm",
     contents: '&lt;div style="text-align: center;"&gt;Author: …&lt;/div&gt;',
@@ -201,13 +432,16 @@ var html = fs.readFileSync("template.html", "utf8");</code></pre>
   footer: {
     height: "28mm",
     contents: {
-      first: "Cover page",
-      2: "Second page",
       default: '&lt;span&gt;{{page}}/{{pages}}&lt;/span&gt;',
-      last: "Last page",
     },
   },
 };</code></pre>
+              <p class="steps__text">
+                <strong>v4:</strong> One footer template is used (<code>default</code>, else
+                <code>first</code>, else <code>last</code>). Per-page keys like
+                <code>2:</code> are not supported — see
+                <a href="https://github.com/hajareshyam/pdf-creator-node/blob/master/readme.md">readme</a>.
+              </p>
             </li>
             <li class="steps__item">
               <div class="steps__title">Build the document object</div>
@@ -255,9 +489,102 @@ var html = fs.readFileSync("template.html", "utf8");</code></pre>
 
 pdf.create(document, options);</code></pre>
           <p class="steps__text">
-            For full control, pass <code>header</code>, <code>footer</code>, and
-            <code>format</code> in the same options object as
-            <a href="https://pptr.dev/">Puppeteer</a> PDF options (see readme).
+            <code>pdfChrome.header</code> accepts <code>height</code>, raw <code>html</code>, or a
+            plain <code>title</code> (centered, escaped). <code>pdfChrome.footer</code> accepts
+            <code>height</code>, raw <code>html</code>, <code>copyright</code>, and
+            <code>showPageNumbers</code>. With <code>copyright</code> only, page numbers default on
+            unless <code>showPageNumbers: false</code>. For page numbers only, set
+            <code>showPageNumbers: true</code> and omit <code>copyright</code>.
+          </p>
+          <p class="steps__text">
+            For low-level control, use the same option object as in
+            <a href="#pdf-options">PDF engine options</a> (and
+            <a href="https://pptr.dev/">Puppeteer</a> concepts).
+          </p>
+        </section>
+
+        <section id="handlebars-helpers" class="section" aria-labelledby="handlebars-helpers-heading">
+          <div class="section__head">
+            <h2 id="handlebars-helpers-heading">Per-call Handlebars helpers</h2>
+            <p class="section__lede">
+              Pass <code>handlebarsHelpers</code> on the second argument. They are registered only
+              for that render and do not replace the global <code>ifCond</code> registration.
+            </p>
+          </div>
+          <pre class="code-block"><code>pdf.create(
+  {
+    html: "&lt;p&gt;{{upper name}}&lt;/p&gt;",
+    data: { name: "Ada" },
+    path: "./out.pdf",
+  },
+  {
+    format: "A4",
+    handlebarsHelpers: {
+      upper: function (s) { return String(s).toUpperCase(); },
+    },
+  }
+);</code></pre>
+        </section>
+
+        <section id="advanced" class="section" aria-labelledby="advanced-heading">
+          <div class="section__head">
+            <h2 id="advanced-heading">Advanced exports</h2>
+            <p class="section__lede">
+              Compose PDF options yourself or convert legacy header/footer tokens for custom
+              pipelines.
+            </p>
+          </div>
+          <h3 class="subsection-title"><code>buildPdfChrome(pdfChrome?)</code></h3>
+          <p>
+            Returns a partial <code>PdfRenderOptions</code> object built from
+            <code>PdfChromeOptions</code> (layout, header, footer). Merge it with your own fields the
+            same way the library does: explicit <code>header</code>, <code>footer</code>,
+            <code>format</code>, etc. on the final options object should win.
+          </p>
+          <pre class="code-block"><code>var partial = buildPdfChrome({
+  layout: { format: "A4", border: "10mm" },
+  footer: { copyright: "© 2026" },
+});
+// partial.footer, partial.format, … — merge with your own opts before calling create().</code></pre>
+          <h3 class="subsection-title"><code>htmlPdfTokensToPuppeteer(html)</code></h3>
+          <p>
+            Replaces <code>{{page}}</code> and <code>{{pages}}</code> in a string with the span
+            classes Chromium expects for print header/footer templates. The library applies this
+            when building print templates; export is for reuse or testing.
+          </p>
+        </section>
+
+        <section id="validation" class="section" aria-labelledby="validation-heading">
+          <div class="section__head">
+            <h2 id="validation-heading">Validation</h2>
+            <p class="section__lede">
+              Invalid input throws before the browser launches. Messages are prefixed with
+              <code>pdf-creator-node:</code>.
+            </p>
+          </div>
+          <ul class="feature-list">
+            <li><code>pdf-creator-node: `document` is required.</code></li>
+            <li>
+              <code>pdf-creator-node: `document.html` must be a non-empty string.</code>
+            </li>
+            <li>
+              <code
+                >pdf-creator-node: `document.data` is required (use `{}` if the template has no
+                variables).</code
+              >
+            </li>
+            <li>
+              <code
+                >pdf-creator-node: `document.path` is required when writing a PDF file (use
+                `type: &quot;buffer&quot;` or `type: &quot;stream&quot;` for in-memory
+                output).</code
+              >
+            </li>
+          </ul>
+          <p>
+            Handlebars compile/render errors throw
+            <code>pdf-creator-node: template rendering failed: …</code> with the underlying
+            message.
           </p>
         </section>
 
@@ -279,12 +606,89 @@ pdf.create(document, options);</code></pre>
   …
 {{/ifCond}}</code></pre>
           <aside class="note" role="note">
-            <strong>Note:</strong> See the
-            <a href="https://github.com/hajareshyam/pdf-creator-node/blob/master/readme.md"
-              >readme</a
+            <strong>Tip:</strong> Pair with <a href="#handlebars-helpers">custom helpers</a> for
+            richer template logic.
+          </aside>
+        </section>
+
+        <section id="fonts-images" class="section" aria-labelledby="fonts-images-heading">
+          <div class="section__head">
+            <h2 id="fonts-images-heading">Fonts &amp; images</h2>
+            <p class="section__lede">
+              Common questions from
+              <a href="https://github.com/hajareshyam/pdf-creator-node/issues">GitHub issues</a>
+              — v4 uses Chromium, so CSS and web fonts behave like in a browser.
+            </p>
+          </div>
+          <ul class="fonts-images-list">
+            <li>
+              <strong>Custom fonts:</strong> Google Fonts via <code>&lt;link&gt;</code>, or
+              <code>@font-face</code> with local files. For relative file URLs, set
+              <code>base</code> in options to your asset directory (trailing slash). Repeat
+              font setup in <code>header</code>/<code>footer</code> HTML if needed — those
+              run in a separate print context.
+            </li>
+            <li>
+              <strong>Margins:</strong> use <code>border</code> (same as older versions).
+            </li>
+            <li>
+              <strong>Images:</strong> remote <code>https://</code>, local paths with
+              <code>base</code>, or <code>data:image/…;base64,…</code>. WebP usually works;
+              if not, try PNG/JPEG. Header/footer images: prefer absolute URLs or paths that
+              resolve with <code>base</code>.
+            </li>
+            <li>
+              <strong>Multi-page layout:</strong> horizontal scroll in a browser is not scrollable in
+              a PDF — use <code>orientation: &quot;landscape&quot;</code>, tighter typography, or
+              table/CSS that fits the page. Try <code>break-inside: avoid</code> /
+              <code>page-break-inside: avoid</code> where Chromium’s print rules allow.
+            </li>
+          </ul>
+          <aside class="note" role="note">
+            <strong>Full detail:</strong>
+            <a href="https://github.com/hajareshyam/pdf-creator-node/blob/master/readme.md#custom-fonts"
+              >readme — Custom fonts</a
             >
-            for validation messages, TypeScript, and optional
-            <code>handlebarsHelpers</code>.
+            and
+            <a href="https://github.com/hajareshyam/pdf-creator-node/blob/master/readme.md#images"
+              >Images</a
+            >.
+          </aside>
+        </section>
+
+        <section id="serverless" class="section" aria-labelledby="serverless-heading">
+          <div class="section__head">
+            <h2 id="serverless-heading">AWS Lambda &amp; serverless</h2>
+            <p class="section__lede">
+              PDF generation uses a full Chromium launch per <code>create()</code> unless you wrap it
+              yourself — plan for install size, memory (~1.5–3&nbsp;GB), and timeouts.
+            </p>
+          </div>
+          <ul class="feature-list">
+            <li>
+              Default <code>puppeteer</code> downloads Chromium (hundreds of MB). Many AWS Lambda
+              zip deployments exceed the unzipped size limit; container images or a trimmed
+              Chromium (e.g. community Lambda layers) are common approaches.
+            </li>
+            <li>
+              The library launches the browser with <code>--no-sandbox</code>,
+              <code>--disable-setuid-sandbox</code>, and <code>--disable-dev-shm-usage</code> (typical
+              for containers). There is <strong>no public option</strong> for
+              <code>executablePath</code> or extra launch flags — custom binaries may need a fork or
+              wrapper until those options exist.
+            </li>
+            <li>
+              For heavy workloads, dedicated VMs or services (ECS, Fargate, a small PDF microservice)
+              are often simpler than squeezing stock Puppeteer into Lambda.
+            </li>
+          </ul>
+          <aside class="note" role="note">
+            <strong>More detail:</strong>
+            <a
+              href="https://github.com/hajareshyam/pdf-creator-node/blob/master/readme.md#aws-lambda-and-serverless"
+              >readme — AWS Lambda and serverless</a
+            >, and
+            <a href="https://pptr.dev/guides/installation">Puppeteer installation / cache</a>.
           </aside>
         </section>
 
@@ -292,16 +696,47 @@ pdf.create(document, options);</code></pre>
           <div class="section__head">
             <h2 id="author-heading">Author</h2>
             <p class="section__lede">
-              Maintainer of this package — questions and contributions welcome on GitHub.
+              Maintainer of <strong>pdf-creator-node</strong> — building simple HTML-to-PDF tools
+              for Node.js. Say hello on the networks below or open an issue on GitHub.
             </p>
           </div>
           <div class="author-card">
             <p class="author-card__name">Shyam Hajare</p>
             <p class="author-card__role">Open-source maintainer · Node.js &amp; PDF tooling</p>
+            <p class="author-card__bio">
+              I maintain this library and related experiments around reports, invoices, and
+              server-side document generation. Contributions, bug reports, and feature ideas are
+              welcome on the repository.
+            </p>
             <p class="author-card__contact">
               <a href="mailto:hajareshyam@gmail.com">hajareshyam@gmail.com</a>
             </p>
-            <ul class="author-social" aria-label="Author social and profiles">
+            <p class="author-social-label" id="author-social-label">Profiles</p>
+            <ul class="author-social" aria-labelledby="author-social-label">
+              <li>
+                <a
+                  class="author-social__link"
+                  href="https://www.linkedin.com/in/hajareshyam"
+                  rel="noopener noreferrer me"
+                  >LinkedIn</a
+                >
+              </li>
+              <li>
+                <a
+                  class="author-social__link"
+                  href="https://www.facebook.com/hajareshyamofficial"
+                  rel="noopener noreferrer me"
+                  >Facebook</a
+                >
+              </li>
+              <li>
+                <a
+                  class="author-social__link"
+                  href="https://x.com/hajareshyam"
+                  rel="noopener noreferrer me"
+                  >X (Twitter)</a
+                >
+              </li>
               <li>
                 <a
                   class="author-social__link"
@@ -313,16 +748,14 @@ pdf.create(document, options);</code></pre>
               <li>
                 <a
                   class="author-social__link"
-                  href="https://www.npmjs.com/package/pdf-creator-node"
-                  rel="noopener noreferrer"
-                  >npm package</a
+                  href="https://www.npmjs.com/~hajareshyam"
+                  rel="noopener noreferrer me"
+                  >npm</a
                 >
               </li>
             </ul>
             <p class="author-card__note">
-              To add LinkedIn, X (Twitter), Mastodon, or other links, edit
-              <code>docs/index.html</code> and duplicate a line inside
-              <code>&lt;ul class="author-social"&gt;</code>.
+              If a profile URL is outdated, edit <code>docs/index.html</code> in the repository.
             </p>
           </div>
         </section>

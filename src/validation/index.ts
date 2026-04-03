@@ -1,4 +1,4 @@
-import type { PdfDocument } from "./types";
+import type { PdfDocument } from "../types";
 
 /**
  * Validates `document` before PDF generation. Throws with a clear message if invalid.

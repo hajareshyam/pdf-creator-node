@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { buildPdfChrome, mergePdfCreateOptions } from "../src/pdfChrome";
+import { buildPdfChrome, mergePdfCreateOptions } from "../src/pdf/chrome";
 
 test("buildPdfChrome sets layout and header title", () => {
   const o = buildPdfChrome({

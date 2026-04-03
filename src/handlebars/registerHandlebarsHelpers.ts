@@ -1,5 +1,5 @@
 import Handlebars from "handlebars";
-import type { IfCondOptions } from "./types";
+import type { IfCondOptions } from "../types";
 
 /**
  * Registers helpers used by templates (e.g. `ifCond` for comparisons).
