@@ -1,57 +1,51 @@
 {
   "name": "pdf-creator-node",
-  "version": "2.3.5",
+  "version": "2.4.0",
   "description": "node pdf creator",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
   },
-  "homepage": "https://github.com/hajareshyam",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "docs:preview": "npx --yes serve docs -l 8080",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hajareshyam/pdf-creator-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hajareshyam/pdf-creator-node/issues"
+  },
+  "homepage": "https://hajareshyam.github.io/pdf-creator-node/",
   "keywords": [
     "pdf",
-    "pdf",
-    "creator",
-    "node",
-    "pdf",
-    "generator",
-    "node pdf generator",
+    "pdf-generator",
     "html2pdf",
-    "htmltopdf",
-    "Pdf generator",
-    "node pdf",
-    "npm node pdf",
-    "pdf node",
-    "node pdf parser",
-    "node pdf npm",
-    "node pdf generator from html",
-    "node pdf generator",
-    "node js api pdf",
-    "node pdf converter",
-    "node pdf create",
-    "node pdf export",
-    "node express pdf",
-    "node pdf from html",
-    "node fs pdf",
-    "node generate pdf from html",
-    "node generate pdf report",
-    "node get pdf file",
-    "node js pdf generation",
-    "node js pdf generator module",
-    "node pdf html",
-    "pdf in node js",
-    "node pdf js",
-    "node",
+    "html-to-pdf",
+    "handlebars",
+    "html-pdf",
+    "nodejs",
+    "express",
+    "report",
     "Shyam Hajare"
   ],
   "author": "Shyam Hajare",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "handlebars": "^4.7.7",
-    "html-pdf": "^3.0.1",
-    "typescript": "^5.7.3"
+    "html-pdf": "^3.0.1"
   },
   "devDependencies": {
     "@types/html-pdf": "^3.0.3",
-    "@types/node": "^22.13.0"
+    "@types/node": "^22.13.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
   }
 }
