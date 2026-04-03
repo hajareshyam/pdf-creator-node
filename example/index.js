@@ -1,45 +1,47 @@
 var pdf = require("pdf-creator-node");
-// var pdf = require("../index");
 var fs = require("fs");
 var path = require("path");
-// Read HTML Template
+
 var html = fs.readFileSync(path.join(__dirname, "./template.html"), "utf8");
 
+/**
+ * Options use pdfChrome for layout + repeating header/footer (copyright + page numbers).
+ * You can still set format/header/footer directly on options — they override pdfChrome.
+ */
 var options = {
-  format: "A3",
-  orientation: "portrait",
-  border: "10mm",
+  pdfChrome: {
+    layout: {
+      format: "A3",
+      orientation: "portrait",
+      border: "10mm",
+    },
+    header: { title: "User list" },
+    footer: {
+      copyright: "© pdf-creator-node example",
+      showPageNumbers: true,
+    },
+  },
 };
 
 var users = [
-  {
-    name: "Shyam",
-    age: "26",
-  },
-  {
-    name: "Navjot",
-    age: "26",
-  },
-  {
-    name: "Vitthal",
-    age: "26",
-  },
+  { name: "Shyam", age: "26" },
+  { name: "Navjot", age: "26" },
+  { name: "Vitthal", age: "26" },
 ];
-// By default a file is created but you could switch between Buffer and Streams by using "buffer" or "stream" respectively.
+
+// Default is file output. Use type: "buffer" | "stream" for in-memory output.
 var document = {
   html: html,
-  data: {
-    users,
-  },
+  data: { users },
   path: "./output.pdf",
-  type: "", // "stream" || "buffer" || "" ("" defaults to pdf)
+  type: "",
 };
 
 pdf
   .create(document, options)
-  .then((res) => {
+  .then(function (res) {
     console.log(res);
   })
-  .catch((error) => {
+  .catch(function (error) {
     console.error(error);
   });

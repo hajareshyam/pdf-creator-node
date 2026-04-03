@@ -1,15 +1,10 @@
 import Handlebars from "handlebars";
 import pdf from "html-pdf";
-import type { CreateOptions } from "html-pdf";
 import type { FileInfo } from "html-pdf";
+import { mergePdfCreateOptions } from "./pdfChrome";
 import { registerHandlebarsHelpers } from "./registerHandlebarsHelpers";
 import type { PdfCreateOptions, PdfDocument } from "./types";
 import { validatePdfDocument } from "./validation";
-
-function stripHtmlPdfOptions(options: PdfCreateOptions): CreateOptions {
-  const { handlebarsHelpers: _h, ...rest } = options;
-  return rest;
-}
 
 function renderHtml(document: PdfDocument, options: PdfCreateOptions): string {
   const hb = Handlebars.create();
@@ -50,7 +45,7 @@ export function create(
       return;
     }
 
-    const pdfOptions = stripHtmlPdfOptions(options);
+    const pdfOptions = mergePdfCreateOptions(options);
     const pdfPromise = pdf.create(html, pdfOptions);
 
     switch (document.type) {

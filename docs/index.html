@@ -33,6 +33,7 @@
         <nav class="site-nav" aria-label="On this page">
           <a href="#quick-start">Quick start</a>
           <a href="#guide">Guide</a>
+          <a href="#pdf-chrome">Layout &amp; header/footer</a>
           <a href="#ifcond">ifCond</a>
         </nav>
         <div class="site-header__actions">
@@ -99,9 +100,14 @@
               >Source on GitHub</a
             >
           </div>
-          <div class="install-block" tabindex="-1">
-            npm i pdf-creator-node --save
-          </div>
+          <div class="install-block" tabindex="-1">npm i pdf-creator-node</div>
+          <p class="hero__hint">
+            Node 18+ · See
+            <a href="https://github.com/hajareshyam/pdf-creator-node/blob/master/readme.md"
+              >full readme on GitHub</a
+            >
+            for TypeScript, validation, and <code>handlebarsHelpers</code>.
+          </p>
         </header>
 
         <section id="quick-start" class="section" aria-labelledby="quick-start-heading">
@@ -118,9 +124,11 @@ var fs = require("fs");
 var html = fs.readFileSync("template.html", "utf8");
 
 var options = {
-  format: "A3",
-  orientation: "portrait",
-  border: "10mm",
+  pdfChrome: {
+    layout: { format: "A3", orientation: "portrait", border: "10mm" },
+    header: { title: "My report" },
+    footer: { copyright: "© 2026", showPageNumbers: true },
+  },
 };
 
 var document = {
@@ -146,7 +154,7 @@ pdf
           <ol class="steps">
             <li class="steps__item">
               <div class="steps__title">Install</div>
-              <div class="install-block">npm i pdf-creator-node --save</div>
+              <div class="install-block">npm i pdf-creator-node</div>
             </li>
             <li class="steps__item">
               <div class="steps__title">Load the package and read your template</div>
@@ -216,6 +224,42 @@ var html = fs.readFileSync("template.html", "utf8");</code></pre>
           </ol>
         </section>
 
+        <section id="pdf-chrome" class="section" aria-labelledby="pdf-chrome-heading">
+          <div class="section__head">
+            <h2 id="pdf-chrome-heading">Layout, header, footer, copyright</h2>
+            <p class="section__lede">
+              Use <code>pdfChrome</code> on the second argument for paper size, repeating
+              header (<code>title</code> or <code>html</code>), and footer with optional
+              <code>copyright</code> and page numbers (<code>{{page}}</code> /
+              <code>{{pages}}</code>). Plain strings are HTML-escaped. Direct
+              <code>format</code> / <code>header</code> / <code>footer</code> on the same
+              object override <code>pdfChrome</code>.
+            </p>
+          </div>
+          <pre class="code-block"><code>var options = {
+  pdfChrome: {
+    layout: {
+      format: "A4",
+      orientation: "portrait",
+      border: "12mm",
+    },
+    header: { title: "Quarterly report" },
+    footer: {
+      copyright: "© 2026 My Company",
+      showPageNumbers: true,
+    },
+  },
+};
+
+pdf.create(document, options);</code></pre>
+          <p class="steps__text">
+            For full control, pass <code>header</code>, <code>footer</code>, and
+            <code>format</code> in the same options object as
+            <a href="https://www.npmjs.com/package/html-pdf">html-pdf</a> expects (see
+            readme).
+          </p>
+        </section>
+
         <section id="ifcond" class="section" aria-labelledby="ifcond-heading">
           <div class="section__head">
             <h2 id="ifcond-heading"><code>ifCond</code> helper</h2>
@@ -234,8 +278,12 @@ var html = fs.readFileSync("template.html", "utf8");</code></pre>
   …
 {{/ifCond}}</code></pre>
           <aside class="note" role="note">
-            <strong>Note:</strong> License terms live in the repository (see
-            footer). Read the full readme on GitHub for more examples.
+            <strong>Note:</strong> See the
+            <a href="https://github.com/hajareshyam/pdf-creator-node/blob/master/readme.md"
+              >readme</a
+            >
+            for validation messages, TypeScript, and optional
+            <code>handlebarsHelpers</code>.
           </aside>
         </section>
 

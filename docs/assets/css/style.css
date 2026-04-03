@@ -283,6 +283,18 @@ html[data-theme="light"] .theme-toggle__icon--moon {
   font-weight: 600;
 }
 
+.hero__hint {
+  margin: 1rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 40rem;
+}
+
+.hero__hint code {
+  font-size: 0.88em;
+}
+
 .badges {
   display: flex;
   flex-wrap: wrap;

@@ -63,6 +63,28 @@ await pdf.create(document, options);
 - **Buffer:** `type: "buffer"`.
 - **Stream:** `type: "stream"`.
 
+### Layout, header, footer, and copyright (`pdfChrome`)
+
+Use **`pdfChrome`** on the second argument for common paper layout and repeating header/footer without hand-writing `html-pdf` structures. Plain `title` / `copyright` strings are HTML-escaped.
+
+- **`layout`:** `format`, `orientation`, `width`, `height`, `border` (same meaning as [html-pdf](https://www.npmjs.com/package/html-pdf) / Phantom paper size).
+- **`header`:** `html` (raw HTML per page) **or** `title` (centered text). Default height `45mm` when content is set.
+- **`footer`:** `html` **or** combine **`copyright`** with optional **`showPageNumbers`** (`{{page}}` / `{{pages}}`). With `copyright` only, page numbers default **on** unless you set `showPageNumbers: false`. For **page numbers only**, set `showPageNumbers: true` and omit `copyright`. Default footer height `28mm` when content is set.
+
+Anything you set directly on the options object (`format`, `header`, `footer`, …) **overrides** the matching field from `pdfChrome`.
+
+```javascript
+pdf.create(document, {
+  pdfChrome: {
+    layout: { format: "A4", orientation: "portrait", border: "12mm" },
+    header: { title: "Quarterly report" },
+    footer: { copyright: "© 2026 My Company", showPageNumbers: true },
+  },
+});
+```
+
+Advanced: `buildPdfChrome(pdfChrome)` returns partial html-pdf options if you want to compose manually (also exported from the package).
+
 ### Optional Handlebars helpers
 
 Pass `handlebarsHelpers` on the **second** argument (alongside `html-pdf` options). Helpers apply only to that render (isolated Handlebars instance). Built-in `ifCond` is always registered.
