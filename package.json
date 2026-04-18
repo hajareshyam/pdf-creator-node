@@ -12,6 +12,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "browsers:install": "puppeteer browsers install chrome",
     "prepublishOnly": "npm run build",
     "docs:preview": "npx --yes serve docs -l 8080",
     "test": "tsx --test test/*.test.ts"
