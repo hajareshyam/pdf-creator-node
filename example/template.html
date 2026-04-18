@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>Node PDF Creator</title>
-    <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -11,27 +10,45 @@
     />
   </head>
   <body>
-    <h1>User List</h1>
-    <ul>
-      {{#each users}}
+    <div class="container-fluid py-3">
+      <h1 class="h3">User list</h1>
 
-      <li>Name: {{this.name}}</li>
-      <li>Age: {{this.age}}</li>
-      <br />
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="h5 card-title">This PDF (matches the layout preset)</h2>
+          <p class="card-text mb-2"><strong>Summary:</strong> {{summary}}</p>
+          <p class="card-text mb-2"><strong>Audience:</strong> {{audience}}</p>
+          <hr />
+          <dl class="row mb-0 small">
+            <dt class="col-sm-3">Output file</dt>
+            <dd class="col-sm-9"><code>{{layout.outputFile}}</code></dd>
+            <dt class="col-sm-3">Paper</dt>
+            <dd class="col-sm-9">{{layout.format}} — {{layout.orientation}}</dd>
+            <dt class="col-sm-3">Margins (<code>border</code>)</dt>
+            <dd class="col-sm-9">{{layout.border}}</dd>
+          </dl>
+        </div>
+      </div>
 
-      {{/each}}
-    </ul>
+      <h2 class="h5">People</h2>
+      <ul class="list-unstyled">
+        {{#each users}}
+        <li class="mb-2 border-bottom pb-2">
+          <strong>{{this.name}}</strong>
+          <span class="text-muted">— age {{this.age}}</span>
+        </li>
+        {{/each}}
+      </ul>
 
-    <h1>Server Image</h1>
-    <img
-      style="width: 80%"
-      src="https://miro.medium.com/max/3840/1*tRp3G6ffXDMDVOvMebzYgg.jpeg"
-      class="img-fluid"
-      alt="Responsive image"
-    />
+      <h2 class="h5 mt-4">Sample image</h2>
+      <img
+        style="max-width: 100%"
+        src="https://miro.medium.com/max/3840/1*tRp3G6ffXDMDVOvMebzYgg.jpeg"
+        class="img-fluid"
+        alt="Sample"
+      />
+    </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
